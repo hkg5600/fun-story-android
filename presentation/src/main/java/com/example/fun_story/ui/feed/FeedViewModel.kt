@@ -11,6 +11,7 @@ import com.example.domain.network.GetNetworkStateUseCase
 import com.example.domain.result.Event
 import com.example.domain.token.TokenManager
 import com.example.fun_story.BaseViewModel
+import com.example.fun_story.DetailNavigator
 import com.example.model.Feed
 import com.example.model.FeedListData
 
@@ -18,7 +19,7 @@ class FeedViewModel(
     private val getFeedUseCase: GetFeedListUseCase,
     private val getNetworkStateUseCase: GetNetworkStateUseCase,
     private val saveFeedListUseCase: SaveFeedListUseCase
-) : BaseViewModel() {
+) : BaseViewModel(), DetailNavigator {
 
     private val _startMessage = MutableLiveData<Event<Unit>>()
     val startMessage: LiveData<Event<Unit>>
@@ -116,7 +117,7 @@ class FeedViewModel(
         executeGetFeed(0)
     }
 
-    fun navigateToDetail(id: Int) {
+    override fun navigateToDetail(id: Int) {
         _navigateToDetail.value = Event(id)
     }
 }

@@ -12,14 +12,9 @@ class SaveRepositoryImpl(
     private val saveLocalDataSource: SaveLocalDataSource,
     private val saveRemoteDataSource: SaveRemoteDataSource
 ) : SaveRepository {
-    override fun getSavedFeedList(): Single<Result<SaveListData>> {
-        return saveLocalDataSource.getSavedFeedList().map(SaveLocalMapper::mapToData)
-            .flatMap {
-                when (it) {
-                    is Result.Success -> Single.just(it)
-                    is Result.Error -> saveRemoteDataSource.getSaveList().map(SaveRemoteMapper::map)
-                }
-            }
+    override fun getSavedFeedList(isLocal: Boolean): Single<Result<SaveListData>> {
+        return if (isLocal) saveLocalDataSource.getSavedFeedList().map(SaveLocalMapper::mapToData)
+        else saveRemoteDataSource.getSaveList().map(SaveRemoteMapper::map)
     }
 
     override fun saveFeed(entity: Feed): Single<Result<Long>> {

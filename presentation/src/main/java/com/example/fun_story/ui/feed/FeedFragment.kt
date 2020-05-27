@@ -40,7 +40,7 @@ class FeedFragment : BaseFragment<FeedViewModel>() {
             false
         ).apply {
             viewModel = this@FeedFragment.viewModel
-            lifecycleOwner = this@FeedFragment
+            lifecycleOwner = this@FeedFragment.viewLifecycleOwner
         }
 
         return binding.root
@@ -51,7 +51,7 @@ class FeedFragment : BaseFragment<FeedViewModel>() {
         bottomSheet = BottomSheetBehavior.from(binding.filterHolder)
 
         binding.recyclerviewFeed.apply {
-            adapter =  FeedAdapter(viewModel)
+            adapter =  FeedAdapter(viewModel, viewModel)
         }
 
         binding.recyclerviewCategory.apply {

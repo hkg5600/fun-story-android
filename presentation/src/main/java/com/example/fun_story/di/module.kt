@@ -23,6 +23,7 @@ import com.example.domain.feed_detail.SaveFeedUseCase
 import com.example.domain.network.GetNetworkStateUseCase
 import com.example.fun_story.BASE_URL
 import com.example.domain.network.NetworkManager
+import com.example.domain.save.GetSaveFeedListUseCase
 import com.example.domain.save.SaveRepository
 import com.example.domain.token.*
 import com.example.fun_story.ui.feed.FeedFragment
@@ -85,13 +86,14 @@ val useCaseModule = module {
     factory { SaveFeedListUseCase(get())}
     factory { SaveFeedUseCase(get()) }
     factory { GetFeedDataUseCase(get()) }
+    factory { GetSaveFeedListUseCase(get()) }
 }
 
 val viewModelModule = module {
     factory { MainViewModel() }
     factory { SplashViewModel(get(), get(), get()) }
     factory { FeedViewModel(get(), get(), get()) }
-    factory { SaveViewModel() }
+    factory { SaveViewModel(get()) }
     factory { FeedDetailViewModel(get(), get()) }
 }
 

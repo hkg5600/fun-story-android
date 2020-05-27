@@ -3,10 +3,11 @@ package com.example.fun_story.ui.feed
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.fun_story.DetailNavigator
 import com.example.fun_story.databinding.FeedItemBinding
 import com.example.model.Feed
 
-class FeedAdapter(private val viewModel: FeedViewModel) :
+class FeedAdapter(private val viewModel: FeedViewModel, private val navigator: DetailNavigator) :
     RecyclerView.Adapter<FeedAdapter.FeedHolder>() {
     class FeedHolder(private val binding: FeedItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Feed) {
@@ -20,7 +21,7 @@ class FeedAdapter(private val viewModel: FeedViewModel) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = FeedHolder(
         FeedItemBinding.inflate(LayoutInflater.from(parent.context), parent, false).apply {
-            viewModel = this@FeedAdapter.viewModel
+            navigate = this@FeedAdapter.navigator
         }
     )
 

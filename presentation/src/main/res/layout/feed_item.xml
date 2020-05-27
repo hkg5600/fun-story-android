@@ -8,10 +8,9 @@
         <variable
             name="item"
             type="com.example.model.Feed" />
-
         <variable
-            name="viewModel"
-            type="com.example.fun_story.ui.feed.FeedViewModel" />
+            name="navigate"
+            type="com.example.fun_story.DetailNavigator" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -28,7 +27,7 @@
             android:id="@+id/holder_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="@{() -> viewModel.navigateToDetail(item.id)}">
+            android:onClick="@{() -> navigate.navigateToDetail(item.id)}">
 
             <TextView
                 android:id="@+id/text_view_title"
