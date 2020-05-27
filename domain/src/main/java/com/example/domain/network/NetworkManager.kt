@@ -1,4 +1,4 @@
-package com.example.fun_story
+package com.example.domain.network
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -9,7 +9,7 @@ import androidx.core.content.ContextCompat.getSystemService
 
 @Suppress("DEPRECATION")
 class NetworkManager(private val context: Context) {
-    fun getNetworkState(): Boolean {
+    fun hasNetworkConnection(): Boolean {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

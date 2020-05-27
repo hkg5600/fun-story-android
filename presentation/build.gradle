@@ -27,6 +27,9 @@ android {
         targetCompatibility "1.8"
     }
     kotlinOptions { jvmTarget = "1.8" }
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -77,4 +80,5 @@ dependencies {
     implementation "androidx.fragment:fragment-ktx:$rootProject.fragmentKtxVersion"
 
     implementation "org.conscrypt:conscrypt-android:$rootProject.conscryptAndroidVersion"
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
 }

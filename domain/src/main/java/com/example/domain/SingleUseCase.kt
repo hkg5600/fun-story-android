@@ -28,7 +28,8 @@ abstract class SingleUseCase<T, R>() {
             }, {
                 Log.e("UseCase Error", it.toString())
                 when (it) {
-                    is SocketTimeoutException,is SocketException, is ConnectException -> result.value = Result.Error("network")
+                    is SocketTimeoutException, is SocketException, is ConnectException -> result.value =
+                        Result.Error("network")
                     is EmptyResultSetException -> result.value = Result.Error("no such table")
                     else -> result.value = Result.Error("token")
                 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:title="게시물"
+        android:icon="@drawable/ic_list"
+        android:id="@+id/menu_list"/>
+    <item
+        android:title="글쓰기"
+        android:icon="@drawable/ic_edit"
+        android:id="@+id/menu_write"/>
+    <item
+        android:title="저장"
+        android:icon="@drawable/ic_save"
+        android:id="@+id/menu_save"/>
+    <item
+        android:title="내 정보"
+        android:icon="@drawable/ic_person"
+        android:id="@+id/menu_info"/>
+</menu>

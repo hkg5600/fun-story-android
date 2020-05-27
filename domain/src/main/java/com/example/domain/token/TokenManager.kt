@@ -15,9 +15,9 @@ import io.reactivex.functions.Function
 object TokenManager : KoinComponent {
     private val tokenRepository by inject<TokenRepository>()
     val hasToken: Boolean
-        get() = token != "default value"
-    var token: String = "default value"
-    var refreshToken: String = "default value"
+        get() = token.isNotBlank()
+    var token: String = ""
+    var refreshToken: String = ""
 
     fun getAuthenticationInterceptor(): Interceptor {
         return Interceptor { chain ->
