@@ -20,6 +20,10 @@ class FeedViewModel(
     private val saveFeedListUseCase: SaveFeedListUseCase
 ) : BaseViewModel() {
 
+    private val _startMessage = MutableLiveData<Event<Unit>>()
+    val startMessage: LiveData<Event<Unit>>
+        get() = _startMessage
+
     private val getFeedParameter = GetFeedParameter(0, 0, 0, "0", true)
 
     private val allFeedList = ArrayList<Feed>()
@@ -39,13 +43,13 @@ class FeedViewModel(
         get() = _selectedCategory
 
     private val _navigateToDetail = MutableLiveData<Event<Int>>()
-    val navigateToDetail : LiveData<Event<Int>>
+    val navigateToDetail: LiveData<Event<Int>>
         get() = _navigateToDetail
 
     val feedCategoryList = FeedCategory.values().toCollection(ArrayList())
 
     init {
-
+        _startMessage.value = Event(Unit)
         getFeedResult.onSuccess(_feedList) {
             val feedList = it.data
             allFeedList.addAll(feedList.list)

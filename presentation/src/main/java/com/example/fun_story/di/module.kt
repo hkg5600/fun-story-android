@@ -99,8 +99,8 @@ val dbModule = module {
 }
 
 val fragmentModule = module {
-    factory { FeedFragment() }
-    factory { SaveFragment() }
+    single { FeedFragment() }
+    single { SaveFragment() }
 }
 
 val moduleList = listOf(

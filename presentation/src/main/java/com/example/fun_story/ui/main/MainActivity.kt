@@ -32,13 +32,13 @@ class MainActivity : BaseActivity<MainViewModel>() {
         binding.bottomNav.setOnNavigationItemSelectedListener {
             transaction = supportFragmentManager.beginTransaction()
             when (it.itemId) {
-                R.id.menu_list -> showFragment(feedFragment)
-                R.id.menu_save -> showFragment(saveFragment)
+                R.id.menu_list -> supportFragmentManager.beginTransaction().replace(binding.fragmentHolder.id, feedFragment).commitAllowingStateLoss()
+                R.id.menu_save ->  supportFragmentManager.beginTransaction().replace(binding.fragmentHolder.id, saveFragment).commitAllowingStateLoss()
             }
             true
         }
 
-        showFragment(feedFragment)
+        supportFragmentManager.beginTransaction().replace(binding.fragmentHolder.id, feedFragment).commitAllowingStateLoss()
 
         initObserver()
     }
@@ -46,20 +46,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
     private fun initObserver() {
 
     }
-
-    private fun showFragment(fragment: Fragment) {
-        hideCurrentFragment()
-        if (fragment.isAdded) transaction.show(fragment)
-        else supportFragmentManager.beginTransaction().add(binding.fragmentHolder.id, fragment)
-            .show(fragment).commitAllowingStateLoss()
-        currentFragment = fragment
-    }
-
-    private fun hideCurrentFragment() {
-        currentFragment?.let {
-            transaction.hide(it).commitAllowingStateLoss()
-        }
-    }
+    
 
     override fun onBackPressed() {
         if (currentFragment == feedFragment) {

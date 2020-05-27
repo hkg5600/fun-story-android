@@ -80,7 +80,6 @@ class FeedFragment : BaseFragment<FeedViewModel>() {
             closeBottomSheet()
         }
 
-        Snackbar.make(binding.holderLayout, "스와이프하여 피드를 새로고침", Snackbar.LENGTH_SHORT).show()
         initObserver()
         super.onViewCreated(view, savedInstanceState)
     }
@@ -98,6 +97,10 @@ class FeedFragment : BaseFragment<FeedViewModel>() {
                     Snackbar.make(binding.holderLayout, it, Snackbar.LENGTH_SHORT).show()
                 }
             }
+        })
+
+        viewModel.startMessage.observe(this, EventObserver {
+            Snackbar.make(binding.holderLayout, "스와이프하여 피드를 새로고침", Snackbar.LENGTH_SHORT).show()
         })
 
         viewModel.navigateToDetail.observe(viewLifecycleOwner, EventObserver {
@@ -119,6 +122,7 @@ class FeedFragment : BaseFragment<FeedViewModel>() {
     private fun closeBottomSheet() {
         bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
     }
+
 }
 
 @BindingAdapter("selectedItem")
