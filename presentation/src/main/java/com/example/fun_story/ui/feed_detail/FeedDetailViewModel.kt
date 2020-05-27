@@ -3,13 +3,15 @@ package com.example.fun_story.ui.feed_detail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.domain.feed.GetFeedDataUseCase
+import com.example.domain.feed_detail.GetFeedDataUseCase
+import com.example.domain.feed_detail.SaveFeedUseCase
 import com.example.domain.result.Event
 import com.example.model.Feed
 import com.example.fun_story.BaseViewModel
 
 class FeedDetailViewModel(
-    private val getFeedDataUseCase: GetFeedDataUseCase
+    private val getFeedDataUseCase: GetFeedDataUseCase,
+    private val saveFeedUseCase: SaveFeedUseCase
 ) : BaseViewModel() {
 
     private var isHandled = false
@@ -18,26 +20,38 @@ class FeedDetailViewModel(
 
     private val getFeedDetailResult = getFeedDataUseCase.observe()
 
-    private val _feedDetail = MediatorLiveData<Feed>()
-    val feedDetail: LiveData<Feed>
-        get() = _feedDetail
+    private val _feedData = MediatorLiveData<Feed>()
+    val feedData: LiveData<Feed>
+        get() = _feedData
+
+    private val _saveResult = MediatorLiveData<Event<Boolean>>()
+    val saveResult : LiveData<Event<Boolean>>
+        get() = _saveResult
 
     init {
-        _feedDetail.addSource(_userId) {
+        _feedData.addSource(_userId) {
             if (!isHandled) {
                 this(getFeedDataUseCase(it))
                 isHandled = true
             }
         }
 
-        getFeedDetailResult.onSuccess(_feedDetail) {
-            _feedDetail.value = it.data.story
+        getFeedDetailResult.onSuccess(_feedData) {
+            _feedData.value = it.data.story
         }
 
         getFeedDetailResult.onError(_error) {
             when (it) {
                 "network", "no data","server" -> raiseNoData()
             }
+        }
+
+        saveFeedUseCase.observe().onSuccess(_saveResult) {
+            _saveResult.value = Event(true)
+        }
+
+        saveFeedUseCase.observe().onError(_error) {
+            _saveResult.value = Event(false)
         }
 
 
@@ -52,6 +66,10 @@ class FeedDetailViewModel(
     }
 
     fun saveFeed() {
-        //this(saveUserCase(feedDetail.value!!))
+        feedData.value?.let{
+            this(saveFeedUseCase(it))
+        } ?: run {
+            _error.value = Event("저장에 실패했습니다.")
+        }
     }
 }

@@ -10,14 +10,20 @@ import com.example.data.feed.FeedRepositoryImpl
 import com.example.data.token.TokenApi
 import com.example.data.token.TokenRepositoryImpl
 import com.example.data.prefs.SharedPreferenceStorage
+import com.example.data.save.SaveApi
+import com.example.data.save.SaveLocalDataSource
+import com.example.data.save.SaveRemoteDataSource
+import com.example.data.save.SaveRepositoryImpl
 import com.example.data.token.TokenRemoteDataSource
 import com.example.domain.feed.FeedRepository
-import com.example.domain.feed.GetFeedDataUseCase
+import com.example.domain.feed_detail.GetFeedDataUseCase
 import com.example.domain.feed.GetFeedListUseCase
 import com.example.domain.feed.SaveFeedListUseCase
+import com.example.domain.feed_detail.SaveFeedUseCase
 import com.example.domain.network.GetNetworkStateUseCase
 import com.example.fun_story.BASE_URL
 import com.example.domain.network.NetworkManager
+import com.example.domain.save.SaveRepository
 import com.example.domain.token.*
 import com.example.fun_story.ui.feed.FeedFragment
 import com.example.fun_story.ui.feed.FeedViewModel
@@ -48,23 +54,26 @@ val retrofit: Retrofit = Retrofit
 
 private val tokenApi = retrofit.create(TokenApi::class.java)
 private val feedApi = retrofit.create(FeedApi::class.java)
+private val saveApi = retrofit.create(SaveApi::class.java)
 
 val networkModule = module {
     single { tokenApi }
     single { feedApi }
+    single { saveApi }
 }
 
 val repositoryModule = module {
     factory<TokenRepository> { TokenRepositoryImpl(get(), get()) }
     factory<FeedRepository> { FeedRepositoryImpl(get(), get()) }
-    //factory<SaveRepository> { SaveRepositoryImpl(get()) }
+    factory<SaveRepository> { SaveRepositoryImpl(get(), get()) }
 }
 
 val dataSourceModule = module {
     factory { TokenRemoteDataSource(get()) }
     factory { FeedRemoteDataSource(get()) }
     factory { FeedLocalDataSource(get()) }
-    //factory { SaveLocalDataSource(get()) }
+    factory { SaveLocalDataSource(get()) }
+    factory { SaveRemoteDataSource(get()) }
 }
 
 val useCaseModule = module {
@@ -73,7 +82,8 @@ val useCaseModule = module {
     factory { RefreshTokenUseCase(get()) }
     factory { GetFeedListUseCase(get()) }
     factory { GetNetworkStateUseCase(get()) }
-    factory { SaveFeedListUseCase(get()) }
+    factory { SaveFeedListUseCase(get())}
+    factory { SaveFeedUseCase(get()) }
     factory { GetFeedDataUseCase(get()) }
 }
 
@@ -82,7 +92,7 @@ val viewModelModule = module {
     factory { SplashViewModel(get(), get(), get()) }
     factory { FeedViewModel(get(), get(), get()) }
     factory { SaveViewModel() }
-    factory { FeedDetailViewModel(get()) }
+    factory { FeedDetailViewModel(get(), get()) }
 }
 
 val dbModule = module {

@@ -3,6 +3,7 @@ package com.example.fun_story.ui.main
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import com.example.fun_story.BaseFragment
 import com.example.fun_story.R
 import com.example.fun_story.databinding.ActivityMainBinding
 import com.example.fun_story.ui.feed.FeedFragment
@@ -32,13 +33,13 @@ class MainActivity : BaseActivity<MainViewModel>() {
         binding.bottomNav.setOnNavigationItemSelectedListener {
             transaction = supportFragmentManager.beginTransaction()
             when (it.itemId) {
-                R.id.menu_list -> supportFragmentManager.beginTransaction().replace(binding.fragmentHolder.id, feedFragment).commitAllowingStateLoss()
-                R.id.menu_save ->  supportFragmentManager.beginTransaction().replace(binding.fragmentHolder.id, saveFragment).commitAllowingStateLoss()
+                R.id.menu_list -> showFragment(feedFragment)
+                R.id.menu_save ->  showFragment(saveFragment)
             }
             true
         }
 
-        supportFragmentManager.beginTransaction().replace(binding.fragmentHolder.id, feedFragment).commitAllowingStateLoss()
+        showFragment(feedFragment)
 
         initObserver()
     }
@@ -46,7 +47,10 @@ class MainActivity : BaseActivity<MainViewModel>() {
     private fun initObserver() {
 
     }
-    
+
+    private fun showFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction().replace(binding.fragmentHolder.id, fragment).commitAllowingStateLoss()
+    }
 
     override fun onBackPressed() {
         if (currentFragment == feedFragment) {

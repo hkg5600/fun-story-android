@@ -10,5 +10,5 @@ interface FeedRepository {
     fun getFeedList(getFeedParameter: GetFeedParameter) : Single<Result<FeedListData>>
     fun saveFeedList(feedList: ArrayList<Feed>) : Single<Result<ArrayList<Long>>>
     fun deleteAll() : Single<Result<Int>>
-    fun getFeedDetail(parameter:Int): Single<Result<FeedData>>
+    fun getFeedData(parameter:Int): Single<Result<FeedData>>
 }

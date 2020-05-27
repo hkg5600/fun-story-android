@@ -58,12 +58,17 @@ class FeedDetailActivity : BaseActivity<FeedDetailViewModel>() {
 
     private fun initObserver() {
         viewModel.error.observe(this, EventObserver {
-            Snackbar.make(binding.holderLayout, it, Snackbar.LENGTH_SHORT).show()
+            makeToast("저장에 실패했습니다.", false)
         })
 
-        viewModel.feedDetail.observe(this, Observer {
-            Log.e("test", it.title)
+        viewModel.saveResult.observe(this, EventObserver{
+            if (!it) {
+                makeToast("저장에 실패했습니다.", false)
+            } else {
+                makeToast("보관된 이야기는 [보관함]에서 확인할 수 있습니다.", true)
+            }
         })
+
     }
 
     override fun onBackPressed() {
