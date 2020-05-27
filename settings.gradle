@@ -1,0 +1,5 @@
+rootProject.name='fun-story'
+include ':presentation'
+include ':domain'
+include ':data'
+include ':model'
