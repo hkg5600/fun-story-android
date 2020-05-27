@@ -15,4 +15,8 @@ class SaveLocalDataSource(private val saveDatabase: SaveDatabase) {
     fun saveFeed(entity: FeedEntity) : Single<Long> {
         return saveDao.insert(entity)
     }
+
+    fun deleteFeed(id: Int) : Single<Int> {
+        return saveDao.delete(id)
+    }
 }

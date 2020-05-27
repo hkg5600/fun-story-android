@@ -32,4 +32,8 @@ class SaveRepositoryImpl(
     override fun saveFeedList(feedList: ArrayList<Int>): Single<Result<String>> {
         return saveRemoteDataSource.saveFeed(feedList).map(SaveRemoteMsgMapper::map)
     }
+
+    override fun deleteFeed(id: Int): Single<Result<Int>> {
+        return saveLocalDataSource.deleteFeed(id).map(SaveLocalMapper::mapToDelete)
+    }
 }

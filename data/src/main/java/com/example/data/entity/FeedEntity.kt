@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.model.Feed
+import java.util.*
 
 @Entity
 data class FeedEntity(
@@ -17,5 +18,7 @@ data class FeedEntity(
     @ColumnInfo(name="user")
     val user: Int,
     @ColumnInfo(name="category")
-    val category: String
+    val category: String,
+    @ColumnInfo(name="created_at")
+    val createdTime : String = Date().time.toString()
 )

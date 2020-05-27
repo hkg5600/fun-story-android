@@ -99,8 +99,8 @@ class FeedFragment : BaseFragment<FeedViewModel>() {
             }
         })
 
-        viewModel.startMessage.observe(this, EventObserver {
-            Snackbar.make(binding.holderLayout, "스와이프하여 피드를 새로고침", Snackbar.LENGTH_SHORT).show()
+        viewModel.startMessage.observe(viewLifecycleOwner, EventObserver {
+            Snackbar.make(binding.holderLayout, it, Snackbar.LENGTH_SHORT).show()
         })
 
         viewModel.navigateToDetail.observe(viewLifecycleOwner, EventObserver {

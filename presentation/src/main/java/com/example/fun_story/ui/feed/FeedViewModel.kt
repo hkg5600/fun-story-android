@@ -21,8 +21,8 @@ class FeedViewModel(
     private val saveFeedListUseCase: SaveFeedListUseCase
 ) : BaseViewModel(), DetailNavigator {
 
-    private val _startMessage = MutableLiveData<Event<Unit>>()
-    val startMessage: LiveData<Event<Unit>>
+    private val _startMessage = MutableLiveData<Event<String>>()
+    val startMessage: LiveData<Event<String>>
         get() = _startMessage
 
     private val getFeedParameter = GetFeedParameter(0, 0, 0, "0", true)
@@ -50,7 +50,7 @@ class FeedViewModel(
     val feedCategoryList = FeedCategory.values().toCollection(ArrayList())
 
     init {
-        _startMessage.value = Event(Unit)
+        _startMessage.value = Event("스와이프하여 피드를 새로고침")
         getFeedResult.onSuccess(_feedList) {
             val feedList = it.data
             allFeedList.addAll(feedList.list)
