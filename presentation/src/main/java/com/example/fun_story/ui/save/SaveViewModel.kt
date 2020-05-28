@@ -35,6 +35,7 @@ class SaveViewModel(private val getSaveFeedListUseCase: GetSaveFeedListUseCase, 
     private val _isRefreshing = MutableLiveData<Boolean>()
     val isRefreshing : LiveData<Boolean>
         get() = _isRefreshing
+
     private val deleteSavedFeedResult = deleteSavedFeedUseCase.observe()
     private val getSaveFeedResult = getSaveFeedListUseCase.observe()
 

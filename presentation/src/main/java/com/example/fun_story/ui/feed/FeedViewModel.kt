@@ -16,7 +16,7 @@ import com.example.model.Feed
 import com.example.model.FeedListData
 
 class FeedViewModel(
-    private val getFeedUseCase: GetFeedListUseCase,
+    private val getFeedListUseCase: GetFeedListUseCase,
     private val getNetworkStateUseCase: GetNetworkStateUseCase,
     private val saveFeedListUseCase: SaveFeedListUseCase
 ) : BaseViewModel(), DetailNavigator {
@@ -29,7 +29,7 @@ class FeedViewModel(
 
     private val allFeedList = ArrayList<Feed>()
 
-    private val getFeedResult = getFeedUseCase.observe()
+    private val getFeedResult = getFeedListUseCase.observe()
 
     private val _feedList = MediatorLiveData<FeedListData>()
     val feedList: LiveData<FeedListData>
@@ -68,7 +68,7 @@ class FeedViewModel(
             _error.value = Event(it)
         }
 
-        this(getFeedUseCase(getFeedParameter))
+        this(getFeedListUseCase(getFeedParameter))
     }
 
     private fun getNetworkState(): Boolean {
@@ -94,7 +94,7 @@ class FeedViewModel(
         if (!getNetworkState()) return
         if (page == 0) allFeedList.clear()
         getFeedParameter.page = page
-        this(getFeedUseCase(getFeedParameter))
+        this(getFeedListUseCase(getFeedParameter))
     }
 
     fun changeMotionLayoutState(it: Boolean) {

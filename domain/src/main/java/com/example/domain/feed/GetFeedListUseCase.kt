@@ -15,7 +15,7 @@ class GetFeedListUseCase(private val feedRepository: FeedRepository) : SingleUse
 
 data class GetFeedParameter(
     var page: Int,
-    val userId: Int,
+    var userId: Int,
     var isFollowing: Int,
     var category: String,
     var isLocal: Boolean

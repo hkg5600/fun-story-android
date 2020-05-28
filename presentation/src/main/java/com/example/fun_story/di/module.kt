@@ -15,6 +15,9 @@ import com.example.data.save.SaveLocalDataSource
 import com.example.data.save.SaveRemoteDataSource
 import com.example.data.save.SaveRepositoryImpl
 import com.example.data.token.TokenRemoteDataSource
+import com.example.data.user.UserApi
+import com.example.data.user.UserRemoteDataSource
+import com.example.data.user.UserRepositoryImpl
 import com.example.domain.feed.FeedRepository
 import com.example.domain.feed_detail.GetFeedDataUseCase
 import com.example.domain.feed.GetFeedListUseCase
@@ -27,9 +30,12 @@ import com.example.domain.save.DeleteSavedFeedUseCase
 import com.example.domain.save.GetSaveFeedListUseCase
 import com.example.domain.save.SaveRepository
 import com.example.domain.token.*
+import com.example.domain.user.GetUserInfoUseCase
+import com.example.domain.user.UserRepository
 import com.example.fun_story.ui.feed.FeedFragment
 import com.example.fun_story.ui.feed.FeedViewModel
 import com.example.fun_story.ui.feed_detail.FeedDetailViewModel
+import com.example.fun_story.ui.feed_list.FollowerViewModel
 import com.example.fun_story.ui.main.MainViewModel
 import com.example.fun_story.ui.save.SaveFragment
 import com.example.fun_story.ui.save.SaveViewModel
@@ -57,17 +63,20 @@ val retrofit: Retrofit = Retrofit
 private val tokenApi = retrofit.create(TokenApi::class.java)
 private val feedApi = retrofit.create(FeedApi::class.java)
 private val saveApi = retrofit.create(SaveApi::class.java)
+private val userApi = retrofit.create(UserApi::class.java)
 
 val networkModule = module {
     single { tokenApi }
     single { feedApi }
     single { saveApi }
+    single { userApi }
 }
 
 val repositoryModule = module {
     factory<TokenRepository> { TokenRepositoryImpl(get(), get()) }
     factory<FeedRepository> { FeedRepositoryImpl(get(), get()) }
     factory<SaveRepository> { SaveRepositoryImpl(get(), get()) }
+    factory<UserRepository> { UserRepositoryImpl(get()) }
 }
 
 val dataSourceModule = module {
@@ -76,6 +85,7 @@ val dataSourceModule = module {
     factory { FeedLocalDataSource(get()) }
     factory { SaveLocalDataSource(get()) }
     factory { SaveRemoteDataSource(get()) }
+    factory { UserRemoteDataSource(get()) }
 }
 
 val useCaseModule = module {
@@ -89,6 +99,7 @@ val useCaseModule = module {
     factory { GetFeedDataUseCase(get()) }
     factory { GetSaveFeedListUseCase(get()) }
     factory { DeleteSavedFeedUseCase(get()) }
+    factory { GetUserInfoUseCase(get()) }
 }
 
 val viewModelModule = module {
@@ -97,6 +108,7 @@ val viewModelModule = module {
     factory { FeedViewModel(get(), get(), get()) }
     factory { SaveViewModel(get(), get()) }
     factory { FeedDetailViewModel(get(), get()) }
+    factory { FollowerViewModel(get(), get(), get()) }
 }
 
 val dbModule = module {

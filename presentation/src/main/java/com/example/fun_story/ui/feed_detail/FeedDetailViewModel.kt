@@ -61,7 +61,7 @@ class FeedDetailViewModel(
         _error.value = Event("이야기를 불러오는데 실패했습니다\n다시 시도해주세요")
     }
 
-    fun setUerId(id: Int) {
+    fun setUserId(id: Int) {
         _userId.value = id
     }
 

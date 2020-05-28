@@ -1,17 +1,16 @@
 package com.example.fun_story.ui.feed_detail
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import com.example.domain.result.EventObserver
 import com.example.fun_story.R
 import com.example.fun_story.databinding.ActivityFeedDetailBinding
+import com.example.fun_story.ui.feed_list.FollowerActivity
 import com.example.presentation.BaseActivity
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FeedDetailActivity : BaseActivity<FeedDetailViewModel>() {
@@ -29,6 +28,10 @@ class FeedDetailActivity : BaseActivity<FeedDetailViewModel>() {
         ) intent?.getIntExtra("id", -1) else null
     }
 
+    private val fromFollow: Boolean by lazy {
+        intent.getBooleanExtra("follow", false)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView<ActivityFeedDetailBinding>(
@@ -43,10 +46,13 @@ class FeedDetailActivity : BaseActivity<FeedDetailViewModel>() {
             finish()
         }
 
-//        binding.fabMenu.setOnClickListener {
-//            bottomSheet.state = BottomSheetBehavior.STATE_EXPANDED
-//        }
-//
+        binding.textViewUser.setOnClickListener {
+            if (fromFollow)
+                finish()
+            else
+                startActivity(Intent(this, FollowerActivity::class.java).putExtra("id", viewModel.feedData.value?.user))
+        }
+
         binding.motionLayout.setTransitionListener(object: MotionLayout.TransitionListener {
             override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {}
             override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {}
@@ -62,7 +68,7 @@ class FeedDetailActivity : BaseActivity<FeedDetailViewModel>() {
         initObserver()
 
         userId?.let {
-            viewModel.setUerId(it)
+            viewModel.setUserId(it)
         } ?: run {
             finish()
         }
