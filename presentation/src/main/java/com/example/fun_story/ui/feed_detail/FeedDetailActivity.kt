@@ -2,6 +2,7 @@ package com.example.fun_story.ui.feed_detail
 
 import android.os.Bundle
 import android.util.Log
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.example.domain.result.EventObserver
@@ -42,9 +43,21 @@ class FeedDetailActivity : BaseActivity<FeedDetailViewModel>() {
             finish()
         }
 
-        binding.fabMenu.setOnClickListener {
-            bottomSheet.state = BottomSheetBehavior.STATE_EXPANDED
-        }
+//        binding.fabMenu.setOnClickListener {
+//            bottomSheet.state = BottomSheetBehavior.STATE_EXPANDED
+//        }
+//
+        binding.motionLayout.setTransitionListener(object: MotionLayout.TransitionListener {
+            override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {}
+            override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {}
+            override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {}
+            override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
+                if (p1 == p0?.endState) {
+                    binding.motionLayout.transitionToStart()
+                    bottomSheet.state = BottomSheetBehavior.STATE_EXPANDED
+                }
+            }
+        })
 
         initObserver()
 

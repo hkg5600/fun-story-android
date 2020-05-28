@@ -49,6 +49,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
     }
 
     private fun showFragment(fragment: Fragment) {
+        currentFragment = feedFragment
         supportFragmentManager.beginTransaction().replace(binding.fragmentHolder.id, fragment).commitAllowingStateLoss()
     }
 

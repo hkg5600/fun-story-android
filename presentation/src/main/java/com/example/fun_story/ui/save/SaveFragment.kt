@@ -51,7 +51,7 @@ class SaveFragment : BaseFragment<SaveViewModel>() {
             setHasFixedSize(true)
             adapter = SaveAdapter(viewModel)
         }
-        
+
         val itemTouchHelper =
             ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
                 override fun onMove(
