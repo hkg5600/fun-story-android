@@ -92,7 +92,7 @@ class FeedFragment : BaseFragment<FeedViewModel>() {
                     "피드를 새로 고침할 수 없음",
                     Snackbar.LENGTH_SHORT
                 ).show()
-                "로그인이 필요한 기능입니다" -> {
+                "로그인이 필요한 작업입니다" -> {
                     binding.switchFollow.isChecked = false
                     Snackbar.make(binding.holderLayout, it, Snackbar.LENGTH_SHORT).show()
                 }

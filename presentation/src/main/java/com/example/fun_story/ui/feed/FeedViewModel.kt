@@ -110,7 +110,7 @@ class FeedViewModel(
 
     fun toggleSwitch(isChecked: Boolean) {
         if (!TokenManager.hasToken) {
-            _error.value = Event("로그인이 필요한 기능입니다")
+            _error.value = Event("로그인이 필요한 작업입니다")
             return
         }
         getFeedParameter.isFollowing = if (isChecked) 1 else 0
