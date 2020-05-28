@@ -1,4 +1,4 @@
-package com.example.fun_story.ui.feed_list
+package com.example.fun_story.ui.follower
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData

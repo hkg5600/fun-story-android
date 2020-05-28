@@ -30,12 +30,15 @@ import com.example.domain.save.DeleteSavedFeedUseCase
 import com.example.domain.save.GetSaveFeedListUseCase
 import com.example.domain.save.SaveRepository
 import com.example.domain.token.*
+import com.example.domain.user.GetMyInfoUseCase
 import com.example.domain.user.GetUserInfoUseCase
 import com.example.domain.user.UserRepository
 import com.example.fun_story.ui.feed.FeedFragment
 import com.example.fun_story.ui.feed.FeedViewModel
 import com.example.fun_story.ui.feed_detail.FeedDetailViewModel
-import com.example.fun_story.ui.feed_list.FollowerViewModel
+import com.example.fun_story.ui.follower.FollowerViewModel
+import com.example.fun_story.ui.info.InfoFragment
+import com.example.fun_story.ui.info.InfoViewModel
 import com.example.fun_story.ui.main.MainViewModel
 import com.example.fun_story.ui.save.SaveFragment
 import com.example.fun_story.ui.save.SaveViewModel
@@ -100,6 +103,7 @@ val useCaseModule = module {
     factory { GetSaveFeedListUseCase(get()) }
     factory { DeleteSavedFeedUseCase(get()) }
     factory { GetUserInfoUseCase(get()) }
+    factory { GetMyInfoUseCase(get()) }
 }
 
 val viewModelModule = module {
@@ -109,6 +113,7 @@ val viewModelModule = module {
     factory { SaveViewModel(get(), get()) }
     factory { FeedDetailViewModel(get(), get(), get()) }
     factory { FollowerViewModel(get(), get(), get()) }
+    factory { InfoViewModel(get()) }
 }
 
 val dbModule = module {
@@ -127,6 +132,7 @@ val dbModule = module {
 val fragmentModule = module {
     single { FeedFragment() }
     single { SaveFragment() }
+    single { InfoFragment() }
 }
 
 val moduleList = listOf(

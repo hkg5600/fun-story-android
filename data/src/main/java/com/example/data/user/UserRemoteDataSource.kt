@@ -13,4 +13,8 @@ class UserRemoteDataSource(private val api:UserApi) {
     fun getUserInfoWithFollow(id: Int) : Single<retrofit2.Response<Response<UserData>>> {
         return api.getUserInfo("/api/user-info/$id/")
     }
+
+    fun getUserInfo(): Single<retrofit2.Response<Response<UserData>>> {
+        return api.getUserInfo("/api/my-info/")
+    }
 }

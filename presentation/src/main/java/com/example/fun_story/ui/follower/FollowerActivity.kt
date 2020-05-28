@@ -1,4 +1,4 @@
-package com.example.fun_story.ui.feed_list
+package com.example.fun_story.ui.follower
 
 import android.content.Intent
 import android.os.Bundle

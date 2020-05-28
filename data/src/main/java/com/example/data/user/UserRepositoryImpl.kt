@@ -11,4 +11,8 @@ class UserRepositoryImpl(private val userRemoteDataSource: UserRemoteDataSource)
         return if (!TokenManager.hasToken) userRemoteDataSource.getUserInfo(id).map(UserMapper::map)
         else userRemoteDataSource.getUserInfoWithFollow(id).map(UserMapper::map)
     }
+
+    override fun getMyInfo(): Single<Result<UserData>> {
+        return userRemoteDataSource.getUserInfo().map(UserMapper::map)
+    }
 }

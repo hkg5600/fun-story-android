@@ -7,7 +7,7 @@ import androidx.databinding.DataBindingUtil
 import com.example.domain.result.EventObserver
 import com.example.fun_story.R
 import com.example.fun_story.databinding.ActivityFeedDetailBinding
-import com.example.fun_story.ui.feed_list.FollowerActivity
+import com.example.fun_story.ui.follower.FollowerActivity
 import com.example.presentation.BaseActivity
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior

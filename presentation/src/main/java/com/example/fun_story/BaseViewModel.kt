@@ -9,6 +9,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import com.example.domain.result.Result
 import com.example.domain.result.Event
+import com.example.domain.token.TokenManager
 
 abstract class BaseViewModel() : ViewModel() {
     private val disposable = CompositeDisposable()
@@ -51,6 +52,8 @@ abstract class BaseViewModel() : ViewModel() {
         Log.e("Error Type", errorMsg)
         when (errorMsg) {
             "token" -> {
+                TokenManager.token = ""
+                TokenManager.refreshToken = ""
                 _loginAgain.value = Event(Unit)
             }
             else -> onError(errorMsg)

@@ -89,7 +89,7 @@ class FeedFragment : BaseFragment<FeedViewModel>() {
             when (it) {
                 "network" -> Snackbar.make(
                     binding.holderLayout,
-                    "피드를 새로 고침할 수 없음",
+                    "이야기를 새로 고침할 수 없음",
                     Snackbar.LENGTH_SHORT
                 ).show()
                 "로그인이 필요한 작업입니다" -> {

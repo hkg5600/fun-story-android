@@ -7,6 +7,7 @@ import com.example.fun_story.BaseFragment
 import com.example.fun_story.R
 import com.example.fun_story.databinding.ActivityMainBinding
 import com.example.fun_story.ui.feed.FeedFragment
+import com.example.fun_story.ui.info.InfoFragment
 import com.example.presentation.BaseActivity
 import com.example.fun_story.ui.save.SaveFragment
 import org.koin.android.ext.android.inject
@@ -23,6 +24,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
     private val feedFragment by inject<FeedFragment>()
     private val saveFragment by inject<SaveFragment>()
+    private val infoFragment by inject<InfoFragment>()
 
     private var currentFragment: Fragment? = null
 
@@ -35,6 +37,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
             when (it.itemId) {
                 R.id.menu_list -> showFragment(feedFragment)
                 R.id.menu_save ->  showFragment(saveFragment)
+                R.id.menu_info -> showFragment(infoFragment)
             }
             true
         }

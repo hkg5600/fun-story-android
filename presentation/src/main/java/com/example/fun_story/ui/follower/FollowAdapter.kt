@@ -1,4 +1,4 @@
-package com.example.fun_story.ui.feed_list
+package com.example.fun_story.ui.follower
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
