@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -45,7 +46,7 @@ class SaveFragment : BaseFragment<SaveViewModel>() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.swipeLayout.setOnRefreshListener { viewModel.executeUseCase(true) }
+        binding.swipeLayout.setOnRefreshListener { viewModel.executeUseCase() }
 
         binding.recyclerviewFeed.apply {
             setHasFixedSize(true)
@@ -118,4 +119,12 @@ fun setItem(recyclerView: RecyclerView, item: ArrayList<Feed>?) {
         saveAdapter.notifyDataSetChanged()
     }
 
+}
+
+@BindingAdapter("visible")
+fun setVisible(textView: TextView, shows: Boolean) {
+    if (shows)
+        textView.visibility = View.VISIBLE
+    else
+        textView.visibility = View.GONE
 }

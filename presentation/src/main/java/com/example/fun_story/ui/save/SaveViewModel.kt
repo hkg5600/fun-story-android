@@ -36,16 +36,19 @@ class SaveViewModel(private val getSaveFeedListUseCase: GetSaveFeedListUseCase, 
     val isRefreshing : LiveData<Boolean>
         get() = _isRefreshing
 
+    private val _textViewVisibility = MutableLiveData<Boolean>(false)
+    val textViewVisibility : LiveData<Boolean>
+        get() = _textViewVisibility
+
     private val deleteSavedFeedResult = deleteSavedFeedUseCase.observe()
     private val getSaveFeedResult = getSaveFeedListUseCase.observe()
 
     init {
-        executeUseCase(true)
+        executeUseCase()
         _startMessage.value = Event("좌로 밀어 삭제")
         getSaveFeedResult.onSuccess(_feedList) {
             _isRefreshing.value = false
-            if (it.data.list.size == 0)
-                return@onSuccess
+            _textViewVisibility.value = false
             _feedList.value = it.data.list
             allFeedList = it.data.list
         }
@@ -54,14 +57,15 @@ class SaveViewModel(private val getSaveFeedListUseCase: GetSaveFeedListUseCase, 
             _isRefreshing.value = false
             when (it) {
                 "empty list" -> {
-                    if (TokenManager.hasToken)
-                        executeUseCase(false)
+                    _textViewVisibility.value = true
                 }
             }
         }
 
         deleteSavedFeedResult.onSuccess(_deleteResult) {
             _deleteResult.value = Event(Unit)
+            if (allFeedList.isEmpty())
+                _textViewVisibility.value = true
         }
 
         deleteSavedFeedResult.onError(_error) {
@@ -69,9 +73,9 @@ class SaveViewModel(private val getSaveFeedListUseCase: GetSaveFeedListUseCase, 
         }
     }
 
-    fun executeUseCase(isLocal: Boolean) {
+    fun executeUseCase() {
         _isRefreshing.value = true
-        this(getSaveFeedListUseCase(isLocal))
+        this(getSaveFeedListUseCase(Unit))
     }
 
 
