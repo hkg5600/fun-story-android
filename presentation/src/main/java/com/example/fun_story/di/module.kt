@@ -107,7 +107,7 @@ val viewModelModule = module {
     factory { SplashViewModel(get(), get(), get()) }
     factory { FeedViewModel(get(), get(), get()) }
     factory { SaveViewModel(get(), get()) }
-    factory { FeedDetailViewModel(get(), get()) }
+    factory { FeedDetailViewModel(get(), get(), get()) }
     factory { FollowerViewModel(get(), get(), get()) }
 }
 

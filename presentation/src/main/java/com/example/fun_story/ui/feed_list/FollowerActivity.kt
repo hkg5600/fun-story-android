@@ -12,6 +12,7 @@ import com.example.fun_story.databinding.ActivityFollowerBinding
 import com.example.fun_story.ui.feed_detail.FeedDetailActivity
 import com.example.model.FeedListData
 import com.example.presentation.BaseActivity
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -36,6 +37,10 @@ class FollowerActivity : BaseActivity<FollowerViewModel>() {
         ).apply {
             viewModel = this@FollowerActivity.viewModel
             lifecycleOwner = this@FollowerActivity
+        }
+
+        binding.toolbar.setNavigationOnClickListener {
+            finish()
         }
 
         binding.recyclerviewFeed.apply {
@@ -69,6 +74,11 @@ class FollowerActivity : BaseActivity<FollowerViewModel>() {
                     "네트워크 연결을 확인해주세요",
                     Snackbar.LENGTH_LONG
                 ).show()
+                "need token" -> Snackbar.make(
+                    binding.holderLayout,
+                    "로그인이 필요한 작업입니다",
+                    Snackbar.LENGTH_LONG
+                ).show()
             }
         })
 
@@ -97,5 +107,20 @@ fun setItem(recyclerView: RecyclerView, feedList: FeedListData?) {
         followAdapter.feedList = it.list
         followAdapter.notifyDataSetChanged()
         followAdapter.canLoadMore = !it.isLast
+    }
+}
+
+@BindingAdapter("button_state")
+fun buttonState(extendedFloatingActionButton: ExtendedFloatingActionButton, isFollowing: Boolean) {
+    if (isFollowing) {
+        extendedFloatingActionButton.apply {
+            setIconResource(R.drawable.ic_close)
+            text = "구독 취소"
+        }
+    } else {
+        extendedFloatingActionButton.apply {
+            setIconResource(R.drawable.ic_add)
+            text = "구독하기"
+        }
     }
 }

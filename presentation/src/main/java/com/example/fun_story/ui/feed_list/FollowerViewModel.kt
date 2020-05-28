@@ -8,6 +8,7 @@ import com.example.domain.feed.GetFeedParameter
 import com.example.domain.network.GetNetworkStateUseCase
 import com.example.domain.result.Event
 import com.example.domain.result.Result
+import com.example.domain.token.TokenManager
 import com.example.domain.user.GetUserInfoUseCase
 import com.example.fun_story.BaseViewModel
 import com.example.fun_story.DetailNavigator
@@ -20,6 +21,10 @@ class FollowerViewModel(
     private val getNetworkStateUseCase: GetNetworkStateUseCase,
     private val getUserInfoUseCase: GetUserInfoUseCase
 ) : BaseViewModel(), DetailNavigator {
+
+    private val _followingState = MutableLiveData(false)
+    val followingState: LiveData<Boolean>
+        get() = _followingState
 
     private var isHandled = false
 
@@ -59,6 +64,7 @@ class FollowerViewModel(
 
         getUserInfoUseCase.observe().onSuccess(_userInfo) {
             _userInfo.value = it.data
+            _followingState.value = it.data.follow
         }
 
         getUserInfoUseCase.observe().onError(_error) {
@@ -93,6 +99,13 @@ class FollowerViewModel(
                 _error.value = Event("network")
                 false
             }
+        }
+    }
+
+    fun follow() {
+        if (!TokenManager.hasToken) {
+            _error.value = Event("need token")
+            return
         }
     }
 

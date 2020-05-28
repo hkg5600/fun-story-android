@@ -47,13 +47,22 @@ class FeedDetailActivity : BaseActivity<FeedDetailViewModel>() {
         }
 
         binding.textViewUser.setOnClickListener {
+            if (!viewModel.getNetworkState()) {
+                viewModel.raiseNetworkError()
+                return@setOnClickListener
+            }
             if (fromFollow)
                 finish()
             else
-                startActivity(Intent(this, FollowerActivity::class.java).putExtra("id", viewModel.feedData.value?.user))
+                startActivity(
+                    Intent(this, FollowerActivity::class.java).putExtra(
+                        "id",
+                        viewModel.feedData.value?.user
+                    )
+                )
         }
 
-        binding.motionLayout.setTransitionListener(object: MotionLayout.TransitionListener {
+        binding.motionLayout.setTransitionListener(object : MotionLayout.TransitionListener {
             override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {}
             override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {}
             override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {}
@@ -77,10 +86,14 @@ class FeedDetailActivity : BaseActivity<FeedDetailViewModel>() {
 
     private fun initObserver() {
         viewModel.error.observe(this, EventObserver {
-            makeToast("저장에 실패했습니다.", false)
+            when (it) {
+                "network" -> makeToast("네트워크 연결을 확인해주세요", false)
+                else -> makeToast("저장에 실패했습니다.", false)
+            }
+
         })
 
-        viewModel.saveResult.observe(this, EventObserver{
+        viewModel.saveResult.observe(this, EventObserver {
             if (!it) {
                 makeToast("저장에 실패했습니다.", false)
             } else {

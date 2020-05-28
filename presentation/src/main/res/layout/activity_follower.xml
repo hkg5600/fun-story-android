@@ -21,9 +21,11 @@
             android:background="#ffffff">
 
             <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                app:title="@{viewModel.userInfo.user.username}"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                app:navigationIcon="@drawable/ic_back"
+                app:title="@{viewModel.userInfo.user.username}" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -52,10 +54,12 @@
             android:id="@+id/button_follow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:icon="@drawable/ic_add"
+            android:onClick="@{() -> viewModel.follow()}"
             android:layout_gravity="bottom|end"
+            app:button_state="@{viewModel.followingState}"
             android:layout_margin="16dp"
-            android:text="팔로우"
-            app:icon="@drawable/ic_add" />
+            android:text="구독하기" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

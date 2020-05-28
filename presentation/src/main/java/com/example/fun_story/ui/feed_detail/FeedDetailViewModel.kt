@@ -5,12 +5,15 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.domain.feed_detail.GetFeedDataUseCase
 import com.example.domain.feed_detail.SaveFeedUseCase
+import com.example.domain.network.GetNetworkStateUseCase
 import com.example.domain.result.Event
+import com.example.domain.result.Result
 import com.example.model.Feed
 import com.example.fun_story.BaseViewModel
 
 class FeedDetailViewModel(
     private val getFeedDataUseCase: GetFeedDataUseCase,
+    private val getNetworkStateUseCase: GetNetworkStateUseCase,
     private val saveFeedUseCase: SaveFeedUseCase
 ) : BaseViewModel() {
 
@@ -70,6 +73,21 @@ class FeedDetailViewModel(
             this(saveFeedUseCase(it))
         } ?: run {
             _error.value = Event("저장에 실패했습니다.")
+        }
+    }
+
+    fun raiseNetworkError() {
+        _error.value = Event("network")
+    }
+
+    fun getNetworkState(): Boolean {
+        return when (val it = getNetworkStateUseCase(Unit)) {
+            is Result.Success -> {
+               it.data
+            }
+            is Result.Error -> {
+                false
+            }
         }
     }
 }
