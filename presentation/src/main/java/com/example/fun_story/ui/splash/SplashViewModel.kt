@@ -44,6 +44,8 @@ class SplashViewModel(
             when (it) {
                 "만료된 토큰입니다" -> this(refreshTokenUseCase(TokenManager.refreshToken))
                 "조작된 토큰입니다" -> {
+                    TokenManager.token = ""
+                    TokenManager.refreshToken = ""
                     _loginAgain.value = Event(Unit)
                 }
             }
@@ -56,6 +58,8 @@ class SplashViewModel(
         }
 
         refreshTokenResult.onError(_error) {
+            TokenManager.token = ""
+            TokenManager.refreshToken = ""
             when (it) {
                 "조작된 토큰입니다","만료된 리프레쉬 토큰입니다" -> _loginAgain.value = Event(Unit)
             }

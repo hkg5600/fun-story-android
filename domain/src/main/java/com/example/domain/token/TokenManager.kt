@@ -16,7 +16,7 @@ object TokenManager : KoinComponent {
     private val tokenRepository by inject<TokenRepository>()
     val hasToken: Boolean
         get() = token.isNotBlank()
-    var token: String = ""
+    var token: String = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Ilx1YWNlMFx1ZDYwNFx1YzExZCIsImV4cGlyZSI6MTU5MDczNDQ5MX0.MZgcAkGv8gaihM-5VvoGHNh6P2JJNN6If0eOkyvH9wY"
     var refreshToken: String = ""
 
     fun getAuthenticationInterceptor(): Interceptor {

@@ -10,6 +10,7 @@ import com.example.fun_story.BaseViewModel
 
 class InfoViewModel(private val getMyInfoUseCase: GetMyInfoUseCase) : BaseViewModel() {
 
+    var userId = 0
 
     private val _userName = MediatorLiveData<String>()
     val userName : LiveData<String>
@@ -17,9 +18,16 @@ class InfoViewModel(private val getMyInfoUseCase: GetMyInfoUseCase) : BaseViewMo
 
     private val getMyInfoResult = getMyInfoUseCase.observe()
 
+    private val _navigateToInfo = MutableLiveData<Event<Int>>()
+    val navigateToInfo : LiveData<Event<Int>>
+        get() = _navigateToInfo
+
+
+
     init {
         getMyInfoResult.onSuccess(_userName) {
             _userName.value = it.data.user.username
+            userId = it.data.user.id
         }
 
         getMyInfoResult.onError(_error) {
@@ -43,14 +51,25 @@ class InfoViewModel(private val getMyInfoUseCase: GetMyInfoUseCase) : BaseViewMo
     }
 
     fun navigateToLogin() {
-        if (TokenManager.hasToken) {
+        userName.value.isNullOrEmpty({
+            _navigateToInfo.value = Event(userId)
+        },{
 
-        } else {
-
-        }
+        })
     }
 
     fun navigateToFollower() {
 
+    }
+
+    private fun String?.isNullOrEmpty(ok: () -> (Unit), not: () -> (Unit)) {
+        this?.let {
+            if (it.isNotBlank())
+                ok()
+            else
+                not()
+        } ?: run {
+            not()
+        }
     }
 }

@@ -22,4 +22,10 @@ class FeedRemoteDataSource(private val api: FeedApi) {
     ) : Single<retrofit2.Response<Response<FeedData>>> {
         return api.getFeedDetail("/api/story-detail/$id/")
     }
+
+    fun deleteFeed(
+        id: Int
+    ) : Single<retrofit2.Response<Response<String>>> {
+        return api.deleteFeed("/api/story/$id/")
+    }
 }

@@ -33,6 +33,10 @@ class FeedRepositoryImpl(
         return feedLocalDataSource.deleteAll().map(FeedLocalMapper::mapToDelete)
     }
 
+    override fun deleteFeed(id: Int): Single<Result<String>> {
+        return feedRemoteDataSource.deleteFeed(id).map(FeedDeleteRemoteMapper::map)
+    }
+
     override fun getFeedData(parameter: Int): Single<Result<FeedData>> {
         return feedLocalDataSource.getFeed(parameter).map(FeedLocalMapper::mapToData)
             .onErrorResumeNext(feedRemoteDataSource.getFeedDetail(parameter).map(FeedDataRemoteMapper::map))

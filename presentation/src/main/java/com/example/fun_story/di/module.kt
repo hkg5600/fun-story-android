@@ -22,6 +22,7 @@ import com.example.domain.feed.FeedRepository
 import com.example.domain.feed_detail.GetFeedDataUseCase
 import com.example.domain.feed.GetFeedListUseCase
 import com.example.domain.feed.SaveFeedListUseCase
+import com.example.domain.feed_detail.DeleteFeedUseCase
 import com.example.domain.feed_detail.SaveFeedUseCase
 import com.example.domain.network.GetNetworkStateUseCase
 import com.example.fun_story.BASE_URL
@@ -104,6 +105,7 @@ val useCaseModule = module {
     factory { DeleteSavedFeedUseCase(get()) }
     factory { GetUserInfoUseCase(get()) }
     factory { GetMyInfoUseCase(get()) }
+    factory { DeleteFeedUseCase(get()) }
 }
 
 val viewModelModule = module {
@@ -112,7 +114,7 @@ val viewModelModule = module {
     factory { FeedViewModel(get(), get(), get()) }
     factory { SaveViewModel(get(), get()) }
     factory { FeedDetailViewModel(get(), get(), get()) }
-    factory { FollowerViewModel(get(), get(), get()) }
+    factory { FollowerViewModel(get(), get(), get(), get()) }
     factory { InfoViewModel(get()) }
 }
 

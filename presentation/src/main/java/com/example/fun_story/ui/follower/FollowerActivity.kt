@@ -2,9 +2,11 @@ package com.example.fun_story.ui.follower
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.result.EventObserver
 import com.example.fun_story.R
@@ -29,6 +31,10 @@ class FollowerActivity : BaseActivity<FollowerViewModel>() {
         ) intent?.getIntExtra("id", -1) else null
     }
 
+    private val isMine: Boolean by lazy {
+        intent?.getBooleanExtra("me", false) ?: false
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView<ActivityFollowerBinding>(
@@ -37,6 +43,31 @@ class FollowerActivity : BaseActivity<FollowerViewModel>() {
         ).apply {
             viewModel = this@FollowerActivity.viewModel
             lifecycleOwner = this@FollowerActivity
+        }
+
+        if (isMine) {
+            Snackbar.make(
+                binding.holderLayout,
+                "좌로 밀어 삭제",
+                Snackbar.LENGTH_LONG
+            ).show()
+            binding.buttonFollow.visibility = View.GONE
+            val itemTouchHelper =
+                ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+                    override fun onMove(
+                        recyclerView: RecyclerView,
+                        viewHolder: RecyclerView.ViewHolder,
+                        target: RecyclerView.ViewHolder
+                    ): Boolean {
+                        return true
+                    }
+
+                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                        val id = viewHolder.adapterPosition
+                        viewModel.removeItem(id)
+                    }
+                })
+            itemTouchHelper.attachToRecyclerView(binding.recyclerviewFeed)
         }
 
         binding.toolbar.setNavigationOnClickListener {
@@ -78,6 +109,9 @@ class FollowerActivity : BaseActivity<FollowerViewModel>() {
                     binding.holderLayout,
                     "로그인이 필요한 작업입니다",
                     Snackbar.LENGTH_LONG
+                ).show()
+                "삭제 실패" -> Snackbar.make(
+                    binding.holderLayout, it, Snackbar.LENGTH_LONG
                 ).show()
             }
         })

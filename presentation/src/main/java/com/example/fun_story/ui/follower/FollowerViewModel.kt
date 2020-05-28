@@ -5,6 +5,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.domain.feed.GetFeedListUseCase
 import com.example.domain.feed.GetFeedParameter
+import com.example.domain.feed_detail.DeleteFeedUseCase
 import com.example.domain.network.GetNetworkStateUseCase
 import com.example.domain.result.Event
 import com.example.domain.result.Result
@@ -19,7 +20,8 @@ import com.example.model.UserData
 class FollowerViewModel(
     private val getFeedListUseCase: GetFeedListUseCase,
     private val getNetworkStateUseCase: GetNetworkStateUseCase,
-    private val getUserInfoUseCase: GetUserInfoUseCase
+    private val getUserInfoUseCase: GetUserInfoUseCase,
+    private val deleteFeedUseCase: DeleteFeedUseCase
 ) : BaseViewModel(), DetailNavigator {
 
     private val _followingState = MutableLiveData(false)
@@ -47,6 +49,10 @@ class FollowerViewModel(
     private val _userId = MutableLiveData<Int>()
 
     private val getFeedResult = getFeedListUseCase.observe()
+
+    private val _deleteResult = MediatorLiveData<Event<Boolean>>()
+    val deleteResult : LiveData<Event<Boolean>>
+        get() = _deleteResult
 
     private val _navigateToDetail = MutableLiveData<Event<Int>>()
     val navigateToDetail: LiveData<Event<Int>>
@@ -86,6 +92,17 @@ class FollowerViewModel(
                 "network" -> _error.value = Event("network")
             }
         }
+
+        deleteFeedUseCase.observe().onSuccess(_feedList) {
+            executeGetFeed(0)
+        }
+
+        deleteFeedUseCase.observe().onError(_error) {
+            when (it) {
+                "network" -> _error.value = Event("network")
+                else -> _error.value = Event("삭제 실패")
+            }
+        }
     }
 
     private fun getNetworkState(): Boolean {
@@ -115,7 +132,8 @@ class FollowerViewModel(
             return
         }
         _isRefreshing.value = true
-        if (page == 0) allFeedList.clear()
+        if (page == 0)
+            allFeedList.clear()
         getFeedParameter.page = page
         this(getFeedListUseCase(getFeedParameter))
     }
@@ -126,6 +144,11 @@ class FollowerViewModel(
 
     fun setUserId(id: Int) {
         _userId.value = id
+    }
+    fun removeItem(id: Int) {
+        val item = allFeedList[id]
+        allFeedList.removeAt(id)
+        deleteFeedUseCase(item.id)
     }
 
 }

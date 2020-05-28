@@ -1,5 +1,6 @@
 package com.example.fun_story.ui.info
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import com.example.fun_story.BaseFragment
 
 import com.example.fun_story.R
 import com.example.fun_story.databinding.FragmentInfoBinding
+import com.example.fun_story.ui.follower.FollowerActivity
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -61,12 +63,17 @@ class InfoFragment : BaseFragment<InfoViewModel>() {
                     .show()
             }
         })
+
+        viewModel.navigateToInfo.observe(viewLifecycleOwner, EventObserver {
+            startActivity(Intent(context, FollowerActivity::class.java).putExtra("id", it).putExtra("me", true))
+        })
+
     }
 }
 
 
-@BindingAdapter("state", "image")
-fun loginState(textView: TextView, username: String?, imageView: ImageView) {
+@BindingAdapter("state")
+fun loginState(textView: TextView, username: String?) {
     username?.let {
         if (it.isBlank()) {
             textView.text = "로그인"

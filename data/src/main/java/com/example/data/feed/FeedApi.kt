@@ -5,10 +5,7 @@ import com.example.model.FeedListData
 import com.example.model.Response
 import io.reactivex.Flowable
 import io.reactivex.Single
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.Query
-import retrofit2.http.Url
+import retrofit2.http.*
 
 interface FeedApi {
 
@@ -19,4 +16,9 @@ interface FeedApi {
     fun getFeed(
         @Url url: String
     ): Single<retrofit2.Response<Response<FeedListData>>>
+
+    @DELETE
+    fun deleteFeed(
+        @Url url: String
+    ) : Single<retrofit2.Response<Response<String>>>
 }
