@@ -11,7 +11,7 @@ object FeedLocalMapper {
         val feedList = ArrayList(data.map {
             Feed(it.id, it.title, it.description, it.user, 0, it.category)
         }).apply { reverse() }
-        return Result.Success(FeedListData(feedList, false, 0))
+        return Result.Success(FeedListData(feedList, true, 0))
     }
 
     fun mapToData(data: FeedEntity) : Result<FeedData> {

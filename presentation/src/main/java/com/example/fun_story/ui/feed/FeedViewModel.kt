@@ -92,7 +92,8 @@ class FeedViewModel(
 
     fun executeGetFeed(page: Int) {
         if (!getNetworkState()) return
-        if (page == 0) allFeedList.clear()
+        if (page == 0)
+            allFeedList.clear()
         getFeedParameter.page = page
         this(getFeedListUseCase(getFeedParameter))
     }
