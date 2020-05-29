@@ -20,6 +20,10 @@ class FollowerViewModel(private val getFollowerUesCase: GetFollowerUesCase) : Ba
     val followerList : LiveData<FollowerData>
         get() = _followerList
 
+    private val _isRefreshing = MutableLiveData<Boolean>()
+    val isRefreshing : LiveData<Boolean>
+        get() = _isRefreshing
+
     init {
         this(getFollowerUesCase(0))
 
@@ -29,9 +33,11 @@ class FollowerViewModel(private val getFollowerUesCase: GetFollowerUesCase) : Ba
             data.list.clear()
             data.list.addAll(allFollowerList)
             _followerList.value = data
+            _isRefreshing.value = false
         }
 
         getFollowerUesCase.observe().onError(_error) {
+            _isRefreshing.value = false
             when (it) {
                 "network" -> _error.value = Event("네트워크 연결을 확인해주세요")
                 else -> _error.value = Event(it)

@@ -26,6 +26,10 @@ class InfoViewModel(private val getMyInfoUseCase: GetMyInfoUseCase) : BaseViewMo
     val navigateToFollow : LiveData<Event<Unit>>
         get() = _navigateToFollow
 
+    private val _navigateToWrite = MutableLiveData<Event<Unit>>()
+    val navigateToWrite : LiveData<Event<Unit>>
+        get() = _navigateToWrite
+
     init {
         getMyInfoResult.onSuccess(_userName) {
             _userName.value = it.data.user.username
@@ -49,7 +53,10 @@ class InfoViewModel(private val getMyInfoUseCase: GetMyInfoUseCase) : BaseViewMo
     }
 
     fun navigateToWrite() {
-
+        if (!TokenManager.hasToken)
+            _error.value = Event("로그인이 필요한 작업입니다")
+        else
+            _navigateToWrite.value = Event(Unit)
     }
 
     fun navigateToLogin() {

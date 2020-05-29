@@ -133,6 +133,7 @@ class UserActivity : BaseActivity<UserViewModel>() {
         })
     }
 
+
 }
 
 @BindingAdapter("followItem")

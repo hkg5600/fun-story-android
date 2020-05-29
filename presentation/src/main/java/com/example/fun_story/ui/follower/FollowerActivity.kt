@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.result.EventObserver
 import com.example.fun_story.R
@@ -47,6 +48,14 @@ class FollowerActivity : BaseActivity<FollowerViewModel>() {
                 Intent(this, UserActivity::class.java).putExtra("id", it)
             )
         })
+
+        viewModel.isRefreshing.observe(this, Observer {
+            binding.swipeLayout.isRefreshing = it
+        })
+
+        binding.swipeLayout.setOnRefreshListener {
+            viewModel.executeGetFollower(0)
+        }
     }
 
 }
