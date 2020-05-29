@@ -45,7 +45,7 @@ class SaveViewModel(private val getSaveFeedListUseCase: GetSaveFeedListUseCase, 
 
     init {
         executeUseCase()
-        _startMessage.value = Event("좌로 밀어 삭제")
+        _startMessage.value = Event("보관 항목은 기기에 저장됩니다.\n앱 삭제시 보관 항목은 삭제됩니다.")
         getSaveFeedResult.onSuccess(_feedList) {
             _isRefreshing.value = false
             _textViewVisibility.value = false
