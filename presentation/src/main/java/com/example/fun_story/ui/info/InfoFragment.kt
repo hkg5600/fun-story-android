@@ -2,11 +2,9 @@ package com.example.fun_story.ui.info
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
@@ -16,7 +14,7 @@ import com.example.fun_story.BaseFragment
 
 import com.example.fun_story.R
 import com.example.fun_story.databinding.FragmentInfoBinding
-import com.example.fun_story.ui.follower.FollowerActivity
+import com.example.fun_story.ui.user.UserActivity
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -65,7 +63,7 @@ class InfoFragment : BaseFragment<InfoViewModel>() {
         })
 
         viewModel.navigateToInfo.observe(viewLifecycleOwner, EventObserver {
-            startActivity(Intent(context, FollowerActivity::class.java).putExtra("id", it).putExtra("me", true))
+            startActivity(Intent(context, UserActivity::class.java).putExtra("id", it).putExtra("me", true))
         })
 
     }

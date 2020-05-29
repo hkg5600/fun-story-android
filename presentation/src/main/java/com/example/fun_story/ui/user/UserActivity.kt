@@ -1,4 +1,4 @@
-package com.example.fun_story.ui.follower
+package com.example.fun_story.ui.user
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.result.EventObserver
 import com.example.fun_story.R
-import com.example.fun_story.databinding.ActivityFollowerBinding
+import com.example.fun_story.databinding.ActivityUserBinding
 import com.example.fun_story.ui.feed_detail.FeedDetailActivity
 import com.example.model.FeedListData
 import com.example.presentation.BaseActivity
@@ -18,10 +18,10 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class FollowerActivity : BaseActivity<FollowerViewModel>() {
+class UserActivity : BaseActivity<UserViewModel>() {
 
-    override val viewModel: FollowerViewModel by viewModel()
-    private lateinit var binding: ActivityFollowerBinding
+    override val viewModel: UserViewModel by viewModel()
+    private lateinit var binding: ActivityUserBinding
 
     private val userId: Int? by lazy {
         if (intent?.getIntExtra(
@@ -37,12 +37,12 @@ class FollowerActivity : BaseActivity<FollowerViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView<ActivityFollowerBinding>(
+        binding = DataBindingUtil.setContentView<ActivityUserBinding>(
             this,
-            R.layout.activity_follower
+            R.layout.activity_user
         ).apply {
-            viewModel = this@FollowerActivity.viewModel
-            lifecycleOwner = this@FollowerActivity
+            viewModel = this@UserActivity.viewModel
+            lifecycleOwner = this@UserActivity
         }
 
         if (isMine) {
@@ -76,7 +76,7 @@ class FollowerActivity : BaseActivity<FollowerViewModel>() {
 
         binding.recyclerviewFeed.apply {
             setHasFixedSize(true)
-            adapter = FollowAdapter(viewModel, viewModel)
+            adapter = UserAdapter(viewModel, viewModel)
         }
 
         binding.swipeLayout.setOnRefreshListener {
@@ -137,19 +137,19 @@ class FollowerActivity : BaseActivity<FollowerViewModel>() {
 
 @BindingAdapter("followItem")
 fun setItem(recyclerView: RecyclerView, feedList: FeedListData?) {
-    val followAdapter: FollowAdapter
+    val userAdapter: UserAdapter
     if (recyclerView.adapter == null)
         return
     else
-        followAdapter = recyclerView.adapter as FollowAdapter
+        userAdapter = recyclerView.adapter as UserAdapter
 
     feedList?.let {
         if (it.next == 1)
             recyclerView.scrollToPosition(0)
-        followAdapter.nextPage = it.next
-        followAdapter.feedList = it.list
-        followAdapter.notifyDataSetChanged()
-        followAdapter.canLoadMore = !it.isLast
+        userAdapter.nextPage = it.next
+        userAdapter.feedList = it.list
+        userAdapter.notifyDataSetChanged()
+        userAdapter.canLoadMore = !it.isLast
     }
 }
 

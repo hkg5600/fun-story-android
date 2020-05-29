@@ -38,7 +38,7 @@ import com.example.domain.user.UserRepository
 import com.example.fun_story.ui.feed.FeedFragment
 import com.example.fun_story.ui.feed.FeedViewModel
 import com.example.fun_story.ui.feed_detail.FeedDetailViewModel
-import com.example.fun_story.ui.follower.FollowerViewModel
+import com.example.fun_story.ui.user.UserViewModel
 import com.example.fun_story.ui.info.InfoFragment
 import com.example.fun_story.ui.info.InfoViewModel
 import com.example.fun_story.ui.main.MainViewModel
@@ -116,7 +116,7 @@ val viewModelModule = module {
     factory { FeedViewModel(get(), get(), get()) }
     factory { SaveViewModel(get(), get()) }
     factory { FeedDetailViewModel(get(), get(), get()) }
-    factory { FollowerViewModel(get(), get(), get(), get(), get()) }
+    factory { UserViewModel(get(), get(), get(), get(), get()) }
     factory { InfoViewModel(get()) }
 }
 

@@ -7,7 +7,7 @@ import androidx.databinding.DataBindingUtil
 import com.example.domain.result.EventObserver
 import com.example.fun_story.R
 import com.example.fun_story.databinding.ActivityFeedDetailBinding
-import com.example.fun_story.ui.follower.FollowerActivity
+import com.example.fun_story.ui.user.UserActivity
 import com.example.presentation.BaseActivity
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -55,7 +55,7 @@ class FeedDetailActivity : BaseActivity<FeedDetailViewModel>() {
                 finish()
             else
                 startActivity(
-                    Intent(this, FollowerActivity::class.java).putExtra(
+                    Intent(this, UserActivity::class.java).putExtra(
                         "id",
                         viewModel.feedData.value?.user
                     )

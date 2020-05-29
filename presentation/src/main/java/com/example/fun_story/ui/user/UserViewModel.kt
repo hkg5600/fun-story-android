@@ -1,4 +1,4 @@
-package com.example.fun_story.ui.follower
+package com.example.fun_story.ui.user
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -18,7 +18,7 @@ import com.example.model.Feed
 import com.example.model.FeedListData
 import com.example.model.UserData
 
-class FollowerViewModel(
+class UserViewModel(
     private val getFeedListUseCase: GetFeedListUseCase,
     private val getNetworkStateUseCase: GetNetworkStateUseCase,
     private val getUserInfoUseCase: GetUserInfoUseCase,

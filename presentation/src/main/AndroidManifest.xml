@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".ui.follower.FollowerActivity"></activity>
+        <activity android:name=".ui.user.UserActivity"></activity>
         <activity android:name=".ui.main.MainActivity" />
         <activity android:name=".ui.feed_detail.FeedDetailActivity" />
         <activity android:name=".ui.splash.SplashActivity">
