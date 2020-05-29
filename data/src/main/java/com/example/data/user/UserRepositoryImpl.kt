@@ -15,4 +15,8 @@ class UserRepositoryImpl(private val userRemoteDataSource: UserRemoteDataSource)
     override fun getMyInfo(): Single<Result<UserData>> {
         return userRemoteDataSource.getUserInfo().map(UserMapper::map)
     }
+
+    override fun followUser(id: Int): Single<Result<String>> {
+        return userRemoteDataSource.followUser(id).map(FollowMapper::map)
+    }
 }

@@ -7,4 +7,5 @@ import io.reactivex.Single
 interface UserRepository {
     fun getUserInfo(id: Int): Single<Result<UserData>>
     fun getMyInfo() : Single<Result<UserData>>
+    fun followUser(id: Int): Single<Result<String>>
 }

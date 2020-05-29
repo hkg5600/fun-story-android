@@ -113,6 +113,11 @@ class FollowerActivity : BaseActivity<FollowerViewModel>() {
                 "삭제 실패" -> Snackbar.make(
                     binding.holderLayout, it, Snackbar.LENGTH_LONG
                 ).show()
+                else -> {
+                    Snackbar.make(
+                        binding.holderLayout, it, Snackbar.LENGTH_LONG
+                    ).show()
+                }
             }
         })
 
@@ -121,6 +126,10 @@ class FollowerActivity : BaseActivity<FollowerViewModel>() {
                 Intent(this, FeedDetailActivity::class.java).putExtra("id", it)
                     .putExtra("follow", true)
             )
+        })
+
+        viewModel.followResult.observe(this, Observer {
+            Snackbar.make(binding.holderLayout, it, Snackbar.LENGTH_LONG).show()
         })
     }
 

@@ -10,6 +10,7 @@ import com.example.domain.network.GetNetworkStateUseCase
 import com.example.domain.result.Event
 import com.example.domain.result.Result
 import com.example.domain.token.TokenManager
+import com.example.domain.user.FollowUserUseCase
 import com.example.domain.user.GetUserInfoUseCase
 import com.example.fun_story.BaseViewModel
 import com.example.fun_story.DetailNavigator
@@ -21,7 +22,8 @@ class FollowerViewModel(
     private val getFeedListUseCase: GetFeedListUseCase,
     private val getNetworkStateUseCase: GetNetworkStateUseCase,
     private val getUserInfoUseCase: GetUserInfoUseCase,
-    private val deleteFeedUseCase: DeleteFeedUseCase
+    private val deleteFeedUseCase: DeleteFeedUseCase,
+    private val followUserUseCase: FollowUserUseCase
 ) : BaseViewModel(), DetailNavigator {
 
     private val _followingState = MutableLiveData(false)
@@ -51,8 +53,12 @@ class FollowerViewModel(
     private val getFeedResult = getFeedListUseCase.observe()
 
     private val _deleteResult = MediatorLiveData<Event<Boolean>>()
-    val deleteResult : LiveData<Event<Boolean>>
+    val deleteResult: LiveData<Event<Boolean>>
         get() = _deleteResult
+
+    private val _followResult = MediatorLiveData<String>()
+    val followResult: LiveData<String>
+        get() = _followResult
 
     private val _navigateToDetail = MutableLiveData<Event<Int>>()
     val navigateToDetail: LiveData<Event<Int>>
@@ -103,6 +109,21 @@ class FollowerViewModel(
                 else -> _error.value = Event("삭제 실패")
             }
         }
+
+        followUserUseCase.observe().onSuccess(_followResult) {
+            _followResult.value = if (it.data == "success to follow") {
+                _followingState.value = true
+                "구독하였습니다"
+            } else {
+                _followingState.value = false
+                "구독을 취소하였습니다"
+            }
+        }
+
+        followUserUseCase.observe().onError(_error) {
+            _error.value = Event(it)
+        }
+
     }
 
     private fun getNetworkState(): Boolean {
@@ -124,6 +145,7 @@ class FollowerViewModel(
             _error.value = Event("need token")
             return
         }
+        this(followUserUseCase(userInfo.value?.user?.id!!))
     }
 
     fun executeGetFeed(page: Int) {
@@ -145,6 +167,7 @@ class FollowerViewModel(
     fun setUserId(id: Int) {
         _userId.value = id
     }
+
     fun removeItem(id: Int) {
         val item = allFeedList[id]
         allFeedList.removeAt(id)

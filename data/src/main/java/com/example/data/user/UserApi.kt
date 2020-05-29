@@ -10,4 +10,7 @@ interface UserApi {
 
     @GET
     fun getUserInfo(@Url url: String) : Single<retrofit2.Response<Response<UserData>>>
+
+    @GET
+    fun followUser(@Url url: String) : Single<retrofit2.Response<Response<String>>>
 }
