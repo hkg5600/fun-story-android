@@ -14,6 +14,7 @@ import com.example.fun_story.BaseFragment
 
 import com.example.fun_story.R
 import com.example.fun_story.databinding.FragmentInfoBinding
+import com.example.fun_story.ui.follower.FollowerActivity
 import com.example.fun_story.ui.user.UserActivity
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -59,11 +60,17 @@ class InfoFragment : BaseFragment<InfoViewModel>() {
                 ).show()
                 "알 수 없는 오류 발생" -> Snackbar.make(binding.holderLayout, it, Snackbar.LENGTH_LONG)
                     .show()
+                "로그인이 필요한 작업입니다" -> Snackbar.make(binding.holderLayout, it, Snackbar.LENGTH_LONG)
+                    .show()
             }
         })
 
-        viewModel.navigateToInfo.observe(viewLifecycleOwner, EventObserver {
+        viewModel.navigateToUser.observe(viewLifecycleOwner, EventObserver {
             startActivity(Intent(context, UserActivity::class.java).putExtra("id", it).putExtra("me", true))
+        })
+
+        viewModel.navigateToFollow.observe(viewLifecycleOwner, EventObserver {
+            startActivity(Intent(context, FollowerActivity::class.java))
         })
 
     }

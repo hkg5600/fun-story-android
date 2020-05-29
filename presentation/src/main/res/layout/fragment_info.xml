@@ -107,6 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
+                android:onClick="@{() -> viewModel.navigateToFollower()}"
                 android:focusable="true"
                 android:paddingTop="13dp"
                 android:paddingBottom="13dp"

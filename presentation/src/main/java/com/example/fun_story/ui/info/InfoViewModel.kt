@@ -18,11 +18,13 @@ class InfoViewModel(private val getMyInfoUseCase: GetMyInfoUseCase) : BaseViewMo
 
     private val getMyInfoResult = getMyInfoUseCase.observe()
 
-    private val _navigateToInfo = MutableLiveData<Event<Int>>()
-    val navigateToInfo : LiveData<Event<Int>>
-        get() = _navigateToInfo
+    private val _navigateToUser = MutableLiveData<Event<Int>>()
+    val navigateToUser : LiveData<Event<Int>>
+        get() = _navigateToUser
 
-
+    private val _navigateToFollow = MutableLiveData<Event<Unit>>()
+    val navigateToFollow : LiveData<Event<Unit>>
+        get() = _navigateToFollow
 
     init {
         getMyInfoResult.onSuccess(_userName) {
@@ -52,14 +54,17 @@ class InfoViewModel(private val getMyInfoUseCase: GetMyInfoUseCase) : BaseViewMo
 
     fun navigateToLogin() {
         userName.value.isNullOrEmpty({
-            _navigateToInfo.value = Event(userId)
+            _navigateToUser.value = Event(userId)
         },{
 
         })
     }
 
     fun navigateToFollower() {
-
+        if (!TokenManager.hasToken)
+            _error.value = Event("로그인이 필요한 작업입니다")
+        else
+            _navigateToFollow.value = Event(Unit)
     }
 
     private fun String?.isNullOrEmpty(ok: () -> (Unit), not: () -> (Unit)) {

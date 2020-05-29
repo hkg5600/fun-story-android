@@ -4,6 +4,7 @@ import com.example.domain.result.Result
 import com.example.domain.token.TokenManager
 import com.example.domain.user.UserRepository
 import com.example.model.UserData
+import com.example.model.FollowerData
 import io.reactivex.Single
 
 class UserRepositoryImpl(private val userRemoteDataSource: UserRemoteDataSource) : UserRepository {
@@ -18,5 +19,9 @@ class UserRepositoryImpl(private val userRemoteDataSource: UserRemoteDataSource)
 
     override fun followUser(id: Int): Single<Result<String>> {
         return userRemoteDataSource.followUser(id).map(FollowMapper::map)
+    }
+
+    override fun getFollow(page: Int): Single<Result<FollowerData>> {
+        return userRemoteDataSource.getFollower(page).map(GetFollowerMapper::map)
     }
 }

@@ -2,6 +2,7 @@ package com.example.data.user
 
 import com.example.model.Response
 import com.example.model.UserData
+import com.example.model.FollowerData
 import io.reactivex.Single
 
 class UserRemoteDataSource(private val api:UserApi) {
@@ -20,5 +21,9 @@ class UserRemoteDataSource(private val api:UserApi) {
 
     fun followUser(id: Int) : Single<retrofit2.Response<Response<String>>> {
         return api.followUser("/api/follow/$id/")
+    }
+
+    fun getFollower(page: Int) : Single<retrofit2.Response<Response<FollowerData>>> {
+        return api.getFollower("/api/my-follow/$page/")
     }
 }

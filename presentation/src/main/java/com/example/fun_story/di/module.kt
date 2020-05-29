@@ -31,13 +31,11 @@ import com.example.domain.save.DeleteSavedFeedUseCase
 import com.example.domain.save.GetSaveFeedListUseCase
 import com.example.domain.save.SaveRepository
 import com.example.domain.token.*
-import com.example.domain.user.FollowUserUseCase
-import com.example.domain.user.GetMyInfoUseCase
-import com.example.domain.user.GetUserInfoUseCase
-import com.example.domain.user.UserRepository
+import com.example.domain.user.*
 import com.example.fun_story.ui.feed.FeedFragment
 import com.example.fun_story.ui.feed.FeedViewModel
 import com.example.fun_story.ui.feed_detail.FeedDetailViewModel
+import com.example.fun_story.ui.follower.FollowerViewModel
 import com.example.fun_story.ui.user.UserViewModel
 import com.example.fun_story.ui.info.InfoFragment
 import com.example.fun_story.ui.info.InfoViewModel
@@ -108,6 +106,7 @@ val useCaseModule = module {
     factory { GetMyInfoUseCase(get()) }
     factory { DeleteFeedUseCase(get()) }
     factory { FollowUserUseCase(get()) }
+    factory { GetFollowerUesCase(get()) }
 }
 
 val viewModelModule = module {
@@ -118,6 +117,7 @@ val viewModelModule = module {
     factory { FeedDetailViewModel(get(), get(), get()) }
     factory { UserViewModel(get(), get(), get(), get(), get()) }
     factory { InfoViewModel(get()) }
+    factory { FollowerViewModel(get()) }
 }
 
 val dbModule = module {
