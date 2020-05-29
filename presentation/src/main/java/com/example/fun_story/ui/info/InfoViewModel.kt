@@ -30,6 +30,10 @@ class InfoViewModel(private val getMyInfoUseCase: GetMyInfoUseCase) : BaseViewMo
     val navigateToWrite : LiveData<Event<Unit>>
         get() = _navigateToWrite
 
+    private val _navigateToLogin = MutableLiveData<Event<Unit>>()
+    val navigateToLogin : LiveData<Event<Unit>>
+        get() = _navigateToLogin
+
     init {
         getMyInfoResult.onSuccess(_userName) {
             _userName.value = it.data.user.username
@@ -63,7 +67,7 @@ class InfoViewModel(private val getMyInfoUseCase: GetMyInfoUseCase) : BaseViewMo
         userName.value.isNullOrEmpty({
             _navigateToUser.value = Event(userId)
         },{
-
+            _navigateToLogin.value = Event(Unit)
         })
     }
 

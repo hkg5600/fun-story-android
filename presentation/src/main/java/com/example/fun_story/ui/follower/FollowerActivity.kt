@@ -35,6 +35,10 @@ class FollowerActivity : BaseActivity<FollowerViewModel>() {
             adapter = FollowerAdapter(viewModel)
         }
 
+        binding.toolbar.setNavigationOnClickListener {
+            finish()
+        }
+
         initObserver()
     }
 

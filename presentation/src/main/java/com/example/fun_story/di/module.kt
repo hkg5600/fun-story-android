@@ -43,6 +43,11 @@ import com.example.fun_story.ui.main.MainViewModel
 import com.example.fun_story.ui.save.SaveFragment
 import com.example.fun_story.ui.save.SaveViewModel
 import com.example.fun_story.ui.splash.SplashViewModel
+import com.example.fun_story.ui.start.StartViewModel
+import com.example.fun_story.ui.start.join.JoinFragment
+import com.example.fun_story.ui.start.join.JoinViewModel
+import com.example.fun_story.ui.start.login.LoginFragment
+import com.example.fun_story.ui.start.login.LoginViewModel
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
@@ -118,6 +123,9 @@ val viewModelModule = module {
     factory { UserViewModel(get(), get(), get(), get(), get()) }
     factory { InfoViewModel(get()) }
     factory { FollowerViewModel(get()) }
+    factory { StartViewModel() }
+    factory { LoginViewModel() }
+    factory { JoinViewModel() }
 }
 
 val dbModule = module {
@@ -137,6 +145,8 @@ val fragmentModule = module {
     single { FeedFragment() }
     single { SaveFragment() }
     single { InfoFragment() }
+    single { LoginFragment()}
+    single { JoinFragment() }
 }
 
 val moduleList = listOf(

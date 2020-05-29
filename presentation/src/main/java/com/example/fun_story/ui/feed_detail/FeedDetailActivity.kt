@@ -87,7 +87,8 @@ class FeedDetailActivity : BaseActivity<FeedDetailViewModel>() {
     private fun initObserver() {
         viewModel.error.observe(this, EventObserver {
             when (it) {
-                "network" -> makeToast("네트워크 연결을 확인해주세요", false)
+                "이야기를 불러오는데 실패했습니다\n" +
+                        "다시 시도해주세요" -> makeToast(it, false)
                 else -> makeToast("저장에 실패했습니다.", false)
             }
 

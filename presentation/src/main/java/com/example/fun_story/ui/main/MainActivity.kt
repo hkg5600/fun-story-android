@@ -53,7 +53,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
     private fun showFragment(fragment: Fragment) {
         currentFragment = feedFragment
-        supportFragmentManager.beginTransaction().replace(binding.fragmentHolder.id, fragment).commitAllowingStateLoss()
+        transaction.replace(binding.fragmentHolder.id, fragment).commitAllowingStateLoss()
     }
 
     override fun onBackPressed() {

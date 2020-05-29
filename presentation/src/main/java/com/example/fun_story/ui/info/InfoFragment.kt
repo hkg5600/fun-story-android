@@ -15,6 +15,7 @@ import com.example.fun_story.BaseFragment
 import com.example.fun_story.R
 import com.example.fun_story.databinding.FragmentInfoBinding
 import com.example.fun_story.ui.follower.FollowerActivity
+import com.example.fun_story.ui.start.StartActivity
 import com.example.fun_story.ui.user.UserActivity
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -71,6 +72,10 @@ class InfoFragment : BaseFragment<InfoViewModel>() {
 
         viewModel.navigateToFollow.observe(viewLifecycleOwner, EventObserver {
             startActivity(Intent(context, FollowerActivity::class.java))
+        })
+
+        viewModel.navigateToLogin.observe(viewLifecycleOwner, EventObserver {
+            startActivity(Intent(context, StartActivity::class.java))
         })
 
     }
