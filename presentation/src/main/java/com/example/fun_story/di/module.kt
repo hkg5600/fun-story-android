@@ -46,6 +46,7 @@ import com.example.fun_story.ui.start.join.JoinFragment
 import com.example.fun_story.ui.start.join.JoinViewModel
 import com.example.fun_story.ui.start.login.LoginFragment
 import com.example.fun_story.ui.start.login.LoginViewModel
+import com.example.fun_story.ui.write.WriteViewModel
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
@@ -127,6 +128,7 @@ val viewModelModule = module {
     factory { StartViewModel() }
     factory { LoginViewModel(get()) }
     factory { JoinViewModel(get()) }
+    factory { WriteViewModel() }
 }
 
 val dbModule = module {
