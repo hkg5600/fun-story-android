@@ -1,8 +1,7 @@
 package com.example.data.user
 
-import com.example.model.Response
-import com.example.model.UserData
-import com.example.model.FollowerData
+import com.example.model.*
+import com.example.model.token.Token
 import io.reactivex.Single
 
 class UserRemoteDataSource(private val api:UserApi) {
@@ -25,5 +24,13 @@ class UserRemoteDataSource(private val api:UserApi) {
 
     fun getFollower(page: Int) : Single<retrofit2.Response<Response<FollowerData>>> {
         return api.getFollower("/api/my-follow/$page/")
+    }
+
+    fun login(loginParameter: LoginParameter) : Single<retrofit2.Response<Response<Token>>> {
+        return api.login(loginParameter)
+    }
+
+    fun join(joinParameter: JoinParameter) : Single<retrofit2.Response<Response<Token>>> {
+        return api.join(joinParameter)
     }
 }

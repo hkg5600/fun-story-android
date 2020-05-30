@@ -2,6 +2,7 @@ package com.example.fun_story.ui.start
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.databinding.DataBindingUtil
 import com.example.domain.result.EventObserver
 import com.example.fun_story.R
@@ -49,5 +50,8 @@ class StartActivity : BaseActivity<StartViewModel>() {
         })
     }
 
-
+    override fun onDestroy() {
+        Log.e("Start", "onDestroy")
+        super.onDestroy()
+    }
 }

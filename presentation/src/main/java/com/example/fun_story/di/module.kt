@@ -15,9 +15,7 @@ import com.example.data.save.SaveLocalDataSource
 import com.example.data.save.SaveRemoteDataSource
 import com.example.data.save.SaveRepositoryImpl
 import com.example.data.token.TokenRemoteDataSource
-import com.example.data.user.UserApi
-import com.example.data.user.UserRemoteDataSource
-import com.example.data.user.UserRepositoryImpl
+import com.example.data.user.*
 import com.example.domain.feed.FeedRepository
 import com.example.domain.feed_detail.GetFeedDataUseCase
 import com.example.domain.feed.GetFeedListUseCase
@@ -84,7 +82,7 @@ val repositoryModule = module {
     factory<TokenRepository> { TokenRepositoryImpl(get(), get()) }
     factory<FeedRepository> { FeedRepositoryImpl(get(), get()) }
     factory<SaveRepository> { SaveRepositoryImpl(get(), get()) }
-    factory<UserRepository> { UserRepositoryImpl(get()) }
+    factory<UserRepository> { UserRepositoryImpl(get(), get(), get()) }
 }
 
 val dataSourceModule = module {
@@ -112,6 +110,9 @@ val useCaseModule = module {
     factory { DeleteFeedUseCase(get()) }
     factory { FollowUserUseCase(get()) }
     factory { GetFollowerUesCase(get()) }
+    factory { LoginUseCase(get()) }
+    factory { JoinUseCase(get()) }
+    factory { RemoveTokenUseCase(get()) }
 }
 
 val viewModelModule = module {
@@ -121,11 +122,11 @@ val viewModelModule = module {
     factory { SaveViewModel(get(), get()) }
     factory { FeedDetailViewModel(get(), get(), get()) }
     factory { UserViewModel(get(), get(), get(), get(), get()) }
-    factory { InfoViewModel(get()) }
+    factory { InfoViewModel(get(), get()) }
     factory { FollowerViewModel(get()) }
     factory { StartViewModel() }
-    factory { LoginViewModel() }
-    factory { JoinViewModel() }
+    factory { LoginViewModel(get()) }
+    factory { JoinViewModel(get()) }
 }
 
 val dbModule = module {
@@ -142,11 +143,16 @@ val dbModule = module {
 }
 
 val fragmentModule = module {
-    single { FeedFragment() }
-    single { SaveFragment() }
-    single { InfoFragment() }
-    single { LoginFragment()}
-    single { JoinFragment() }
+    factory { FeedFragment() }
+    factory { SaveFragment() }
+    factory { InfoFragment() }
+    factory { LoginFragment()}
+    factory { JoinFragment() }
+}
+
+val mapperModule = module {
+    factory { JoinMapper(get()) }
+    factory { LoginMapper(get()) }
 }
 
 val moduleList = listOf(
@@ -156,5 +162,6 @@ val moduleList = listOf(
     repositoryModule,
     networkModule,
     dbModule,
-    fragmentModule
+    fragmentModule,
+    mapperModule
 )

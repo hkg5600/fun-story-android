@@ -5,6 +5,7 @@ import com.example.model.token.Token
 import com.example.domain.result.Result
 import com.example.domain.token.TokenRepository
 import io.reactivex.Single
+import java.lang.Exception
 
 class TokenRepositoryImpl(private val tokenRemoteDataSource: TokenRemoteDataSource, private val sharedPreferenceStorage: SharedPreferenceStorage) :
     TokenRepository {
@@ -24,5 +25,17 @@ class TokenRepositoryImpl(private val tokenRemoteDataSource: TokenRemoteDataSour
         else
             Result.Error("no token")
     }
+
+    override fun removeToken(): Result<Unit> {
+        return try {
+            sharedPreferenceStorage.removeKey("token")
+            sharedPreferenceStorage.removeKey("refresh")
+            Result.Success(Unit)
+        } catch (e: Exception) {
+            Result.Error("삭제 실패")
+        }
+
+    }
+
 
 }

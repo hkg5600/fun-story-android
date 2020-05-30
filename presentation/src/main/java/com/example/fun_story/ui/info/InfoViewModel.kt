@@ -4,17 +4,23 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.domain.result.Event
+import com.example.domain.result.Result
+import com.example.domain.token.RemoveTokenUseCase
 import com.example.domain.token.TokenManager
 import com.example.domain.user.GetMyInfoUseCase
 import com.example.fun_story.BaseViewModel
 
-class InfoViewModel(private val getMyInfoUseCase: GetMyInfoUseCase) : BaseViewModel() {
+class InfoViewModel(private val getMyInfoUseCase: GetMyInfoUseCase, private val removeTokenUseCase: RemoveTokenUseCase) : BaseViewModel() {
 
     var userId = 0
 
     private val _userName = MediatorLiveData<String>()
     val userName : LiveData<String>
         get() = _userName
+
+    private val _logoutHolderVisible = MutableLiveData<Boolean>()
+    val logoutHolderVisible : LiveData<Boolean>
+        get() = _logoutHolderVisible
 
     private val getMyInfoResult = getMyInfoUseCase.observe()
 
@@ -34,6 +40,10 @@ class InfoViewModel(private val getMyInfoUseCase: GetMyInfoUseCase) : BaseViewMo
     val navigateToLogin : LiveData<Event<Unit>>
         get() = _navigateToLogin
 
+    private val _navigateToLogout = MutableLiveData<Event<Unit>>()
+    val navigateToLogout : LiveData<Event<Unit>>
+        get() = _navigateToLogout
+
     init {
         getMyInfoResult.onSuccess(_userName) {
             _userName.value = it.data.user.username
@@ -50,8 +60,10 @@ class InfoViewModel(private val getMyInfoUseCase: GetMyInfoUseCase) : BaseViewMo
 
     fun initLoginState() {
         if (TokenManager.hasToken) {
+            _logoutHolderVisible.value = true
             this(getMyInfoUseCase(Unit))
         } else {
+            _logoutHolderVisible.value = false
             _userName.value = ""
         }
     }
@@ -76,6 +88,20 @@ class InfoViewModel(private val getMyInfoUseCase: GetMyInfoUseCase) : BaseViewMo
             _error.value = Event("로그인이 필요한 작업입니다")
         else
             _navigateToFollow.value = Event(Unit)
+    }
+
+    fun navigateToLogout() {
+        TokenManager.token = ""
+        TokenManager.refreshToken = ""
+        when (removeTokenUseCase(Unit)) {
+            is Result.Success -> {
+                _navigateToLogout.value = Event(Unit)        
+            }
+            is Result.Error -> {
+                _error.value = Event("로그아웃 실패")
+            }
+        }
+        
     }
 
     private fun String?.isNullOrEmpty(ok: () -> (Unit), not: () -> (Unit)) {

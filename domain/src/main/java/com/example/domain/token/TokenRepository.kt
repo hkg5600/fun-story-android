@@ -8,4 +8,5 @@ interface TokenRepository {
     fun verifyToken(token: String) : Single<Result<String>>
     fun refreshToken(token: String) : Single<Result<Token>>
     fun getToken() : Result<Pair<String, String>>
+    fun removeToken() : Result<Unit>
 }
