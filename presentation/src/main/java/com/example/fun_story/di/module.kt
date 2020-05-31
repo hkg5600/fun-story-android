@@ -47,6 +47,8 @@ import com.example.fun_story.ui.start.join.JoinViewModel
 import com.example.fun_story.ui.start.login.LoginFragment
 import com.example.fun_story.ui.start.login.LoginViewModel
 import com.example.fun_story.ui.write.WriteViewModel
+import com.example.fun_story.ui.write.category.WriteCategoryFragment
+import com.example.fun_story.ui.write.content.WriteContentFragment
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
@@ -150,6 +152,8 @@ val fragmentModule = module {
     factory { InfoFragment() }
     factory { LoginFragment()}
     factory { JoinFragment() }
+    factory { WriteCategoryFragment() }
+    factory { WriteContentFragment() }
 }
 
 val mapperModule = module {

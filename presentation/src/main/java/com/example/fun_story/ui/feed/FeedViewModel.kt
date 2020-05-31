@@ -11,15 +11,17 @@ import com.example.domain.network.GetNetworkStateUseCase
 import com.example.domain.result.Event
 import com.example.domain.token.TokenManager
 import com.example.fun_story.BaseViewModel
+import com.example.fun_story.CategorySelector
 import com.example.fun_story.DetailNavigator
 import com.example.model.Feed
+import com.example.model.FeedCategory
 import com.example.model.FeedListData
 
 class FeedViewModel(
     private val getFeedListUseCase: GetFeedListUseCase,
     private val getNetworkStateUseCase: GetNetworkStateUseCase,
     private val saveFeedListUseCase: SaveFeedListUseCase
-) : BaseViewModel(), DetailNavigator {
+) : BaseViewModel(), DetailNavigator, CategorySelector {
 
     private val _startMessage = MutableLiveData<Event<String>>()
     val startMessage: LiveData<Event<String>>
@@ -102,12 +104,6 @@ class FeedViewModel(
         _motionLayoutState.value = it
     }
 
-    fun selectCategory(category: FeedCategory) {
-        val isEqual = selectedCategory.value == category
-        _selectedCategory.value = if (isEqual) null else category
-        getFeedParameter.category = if (isEqual) "0" else category.id
-        executeGetFeed(0)
-    }
 
     fun toggleSwitch(isChecked: Boolean) {
         if (!TokenManager.hasToken) {
@@ -121,13 +117,11 @@ class FeedViewModel(
     override fun navigateToDetail(id: Int) {
         _navigateToDetail.value = Event(id)
     }
-}
 
-enum class FeedCategory(val categoryName: String, val id: String) {
-    Fun("유머 / 개그", "100"),
-    Horror("공포 / 스릴러", "101"),
-    Sad("감동 / 슬픈", "103"),
-    Knowledge("상식 / 지식", "102"),
-    Romance("연애", "104"),
-    Poem("시", "105")
+    override fun selectCategory(category: FeedCategory) {
+        val isEqual = selectedCategory.value == category
+        _selectedCategory.value = if (isEqual) null else category
+        getFeedParameter.category = if (isEqual) "0" else category.id
+        executeGetFeed(0)
+    }
 }

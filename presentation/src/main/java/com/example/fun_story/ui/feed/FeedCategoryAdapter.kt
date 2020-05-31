@@ -5,13 +5,15 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.fun_story.CategorySelector
 import com.example.fun_story.R
 import com.example.fun_story.databinding.FilterItemBinding
+import com.example.model.FeedCategory
 
-class FeedFilterAdapter(
-    private val viewModel: FeedViewModel,
+class FeedCategoryAdapter(
+    private val selector: CategorySelector,
     private val categoryList: ArrayList<FeedCategory>
-) : RecyclerView.Adapter<FeedFilterAdapter.FeedFilterHolder>() {
+) : RecyclerView.Adapter<FeedCategoryAdapter.FeedFilterHolder>() {
 
     var selectedItem: FeedCategory? = null
 
@@ -29,7 +31,7 @@ class FeedFilterAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = FeedFilterHolder(
         FilterItemBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
-        ).apply { viewModel = this@FeedFilterAdapter.viewModel }
+        ).apply { selector = this@FeedCategoryAdapter.selector }
     )
 
     override fun getItemCount() = categoryList.size

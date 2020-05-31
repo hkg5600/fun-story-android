@@ -4,20 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
-            name="viewModel"
-            type="com.example.fun_story.ui.feed.FeedViewModel" />
+            name="selector"
+            type="com.example.fun_story.CategorySelector" />
 
         <variable
             name="item"
-            type="com.example.fun_story.ui.feed.FeedCategory" />
+            type="com.example.model.FeedCategory" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/click_layout"
         android:layout_width="match_parent"
-        android:onClick="@{() -> viewModel.selectCategory(item)}"
+        android:onClick="@{() -> selector.selectCategory(item)}"
         android:layout_height="wrap_content"
         android:padding="5dp">
 

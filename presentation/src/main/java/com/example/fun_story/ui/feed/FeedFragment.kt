@@ -17,6 +17,7 @@ import com.example.fun_story.databinding.FragmentFeedBinding
 import com.example.fun_story.ui.feed_detail.FeedDetailActivity
 import com.example.model.FeedListData
 import com.example.fun_story.BaseFragment
+import com.example.model.FeedCategory
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -57,7 +58,7 @@ class FeedFragment : BaseFragment<FeedViewModel>() {
         binding.recyclerviewCategory.apply {
             setHasFixedSize(true)
             (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-            adapter = FeedFilterAdapter(viewModel, viewModel.feedCategoryList)
+            adapter = FeedCategoryAdapter(viewModel, viewModel.feedCategoryList)
         }
 
         binding.motionLayout.setTransitionListener(object : MotionLayout.TransitionListener {
@@ -127,15 +128,15 @@ class FeedFragment : BaseFragment<FeedViewModel>() {
 
 @BindingAdapter("selectedItem")
 fun selectedItem(recyclerView: RecyclerView, category: FeedCategory?) {
-    val feedFilterAdapter: FeedFilterAdapter
+    val feedCategoryAdapter: FeedCategoryAdapter
 
     if (recyclerView.adapter == null)
         return
     else
-        feedFilterAdapter = recyclerView.adapter as FeedFilterAdapter
+        feedCategoryAdapter = recyclerView.adapter as FeedCategoryAdapter
 
-    feedFilterAdapter.selectedItem = category
-    feedFilterAdapter.notifyDataSetChanged()
+    feedCategoryAdapter.selectedItem = category
+    feedCategoryAdapter.notifyDataSetChanged()
 
 }
 

@@ -18,6 +18,7 @@ import com.example.fun_story.ui.follower.FollowerActivity
 import com.example.fun_story.ui.splash.SplashActivity
 import com.example.fun_story.ui.start.StartActivity
 import com.example.fun_story.ui.user.UserActivity
+import com.example.fun_story.ui.write.WriteActivity
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -82,6 +83,10 @@ class InfoFragment : BaseFragment<InfoViewModel>() {
         viewModel.navigateToLogout.observe(viewLifecycleOwner, EventObserver {
             startActivity(Intent(context, SplashActivity::class.java))
             activity?.finish()
+        })
+
+        viewModel.navigateToWrite.observe(viewLifecycleOwner, EventObserver {
+            startActivity(Intent(context, WriteActivity::class.java))
         })
 
     }
