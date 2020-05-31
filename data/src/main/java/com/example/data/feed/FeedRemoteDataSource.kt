@@ -2,6 +2,7 @@ package com.example.data.feed
 
 import com.example.model.FeedData
 import com.example.model.FeedListData
+import com.example.model.PostFeedParameter
 import com.example.model.Response
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -27,5 +28,9 @@ class FeedRemoteDataSource(private val api: FeedApi) {
         id: Int
     ) : Single<retrofit2.Response<Response<String>>> {
         return api.deleteFeed("/api/story/$id/")
+    }
+
+    fun postFeed(postFeedParameter: PostFeedParameter): Single<retrofit2.Response<Response<String>>> {
+        return api.postFeed(postFeedParameter)
     }
 }

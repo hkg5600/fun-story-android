@@ -3,6 +3,7 @@ package com.example.fun_story.ui.splash
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.domain.network.GetNetworkStateUseCase
 import com.example.domain.result.Event
 import com.example.domain.result.Result
 import com.example.domain.token.GetTokenUseCase
@@ -13,7 +14,8 @@ import com.example.fun_story.BaseViewModel
 class SplashViewModel(
     private val getTokenUseCase: GetTokenUseCase,
     private val verifyTokenUserCase: VerifyTokenUserCase,
-    private val refreshTokenUseCase: RefreshTokenUseCase
+    private val refreshTokenUseCase: RefreshTokenUseCase,
+    private val getNetworkStateUseCase: GetNetworkStateUseCase
 ) : BaseViewModel() {
 
 
@@ -29,7 +31,8 @@ class SplashViewModel(
             is Result.Success -> {
                 TokenManager.token = it.data.first
                 TokenManager.refreshToken = it.data.second
-                this(verifyTokenUserCase(TokenManager.token))
+                if (getNetworkState())
+                    this(verifyTokenUserCase(TokenManager.token))
             }
             is Result.Error -> {
                 _complete.value = Event(Unit)
@@ -48,6 +51,7 @@ class SplashViewModel(
                     TokenManager.refreshToken = ""
                     _loginAgain.value = Event(Unit)
                 }
+                "network" -> _error.value = Event(it)
             }
         }
 
@@ -62,8 +66,23 @@ class SplashViewModel(
             TokenManager.refreshToken = ""
             when (it) {
                 "조작된 토큰입니다","만료된 리프레쉬 토큰입니다" -> _loginAgain.value = Event(Unit)
+                "network" -> _error.value = Event(it)
             }
         }
 
+    }
+
+    private fun getNetworkState(): Boolean {
+        return when (val it = getNetworkStateUseCase(Unit)) {
+            is Result.Success -> {
+                if (!it.data)
+                    _error.value = Event("network")
+                it.data
+            }
+            is Result.Error -> {
+                _error.value = Event("network")
+                false
+            }
+        }
     }
 }

@@ -6,11 +6,13 @@ import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.example.domain.result.EventObserver
 import com.example.fun_story.R
 import com.example.fun_story.databinding.ActivityWriteBinding
 import com.example.fun_story.ui.write.category.WriteCategoryFragment
 import com.example.fun_story.ui.write.content.WriteContentFragment
 import com.example.presentation.BaseActivity
+import com.google.android.material.snackbar.Snackbar
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -18,7 +20,7 @@ class WriteActivity : BaseActivity<WriteViewModel>() {
 
     override val viewModel: WriteViewModel by viewModel()
 
-    private lateinit var binding : ActivityWriteBinding
+    private lateinit var binding: ActivityWriteBinding
 
     private val writeContentFragment by inject<WriteContentFragment>()
     private val writeCategoryFragment by inject<WriteCategoryFragment>()
@@ -27,13 +29,15 @@ class WriteActivity : BaseActivity<WriteViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView<ActivityWriteBinding>(this, R.layout.activity_write).apply {
-            lifecycleOwner = this@WriteActivity
-            viewModel = this@WriteActivity.viewModel
-        }
+        binding =
+            DataBindingUtil.setContentView<ActivityWriteBinding>(this, R.layout.activity_write)
+                .apply {
+                    lifecycleOwner = this@WriteActivity
+                    viewModel = this@WriteActivity.viewModel
+                }
 
         binding.toolbar.menu[0].setOnMenuItemClickListener {
-
+            viewModel.executePost()
             true
         }
 
@@ -77,6 +81,28 @@ class WriteActivity : BaseActivity<WriteViewModel>() {
                 showFragment(writeCategoryFragment)
             else
                 showFragment(writeContentFragment)
+        })
+
+        viewModel.error.observe(this, EventObserver {
+            when (it) {
+                "network" -> Snackbar.make(
+                    binding.holderLayout,
+                    "네트워크 연결을 확인해주세요",
+                    Snackbar.LENGTH_LONG
+                ).show()
+                else -> Snackbar.make(
+                    binding.holderLayout, it,
+                    Snackbar.LENGTH_LONG
+                ).show()
+            }
+        })
+
+        viewModel.completePost.observe(this, Observer {
+            Snackbar.make(
+                binding.holderLayout, "작성 성공",
+                Snackbar.LENGTH_LONG
+            ).show()
+            finish()
         })
     }
 

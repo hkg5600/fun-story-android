@@ -28,6 +28,7 @@ class SplashActivity : AppCompatActivity() {
         viewModel.error.observe(this, EventObserver{
             when (it) {
                 "network" -> {
+                    Toast.makeText(this, "인증에 실패했습니다", Toast.LENGTH_LONG).show()
                     startMain()
                 }
             }

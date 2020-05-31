@@ -19,6 +19,7 @@ import com.example.data.user.*
 import com.example.domain.feed.FeedRepository
 import com.example.domain.feed_detail.GetFeedDataUseCase
 import com.example.domain.feed.GetFeedListUseCase
+import com.example.domain.feed.PostFeedUseCase
 import com.example.domain.feed.SaveFeedListUseCase
 import com.example.domain.feed_detail.DeleteFeedUseCase
 import com.example.domain.feed_detail.SaveFeedUseCase
@@ -116,11 +117,12 @@ val useCaseModule = module {
     factory { LoginUseCase(get()) }
     factory { JoinUseCase(get()) }
     factory { RemoveTokenUseCase(get()) }
+    factory { PostFeedUseCase(get()) }
 }
 
 val viewModelModule = module {
     factory { MainViewModel() }
-    factory { SplashViewModel(get(), get(), get()) }
+    factory { SplashViewModel(get(), get(), get(), get()) }
     factory { FeedViewModel(get(), get(), get()) }
     factory { SaveViewModel(get(), get()) }
     factory { FeedDetailViewModel(get(), get(), get()) }
@@ -130,7 +132,7 @@ val viewModelModule = module {
     factory { StartViewModel() }
     factory { LoginViewModel(get()) }
     factory { JoinViewModel(get()) }
-    factory { WriteViewModel() }
+    factory { WriteViewModel(get(), get()) }
 }
 
 val dbModule = module {

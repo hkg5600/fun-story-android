@@ -7,6 +7,7 @@ import com.example.model.FeedListData
 import com.example.domain.result.Result
 import com.example.domain.feed.FeedRepository
 import com.example.domain.feed.GetFeedParameter
+import com.example.model.PostFeedParameter
 import io.reactivex.Single
 
 class FeedRepositoryImpl(
@@ -40,6 +41,10 @@ class FeedRepositoryImpl(
     override fun getFeedData(parameter: Int): Single<Result<FeedData>> {
         return feedLocalDataSource.getFeed(parameter).map(FeedLocalMapper::mapToData)
             .onErrorResumeNext(feedRemoteDataSource.getFeedDetail(parameter).map(FeedDataRemoteMapper::map))
+    }
+
+    override fun postFeed(postFeedParameter: PostFeedParameter): Single<Result<String>> {
+        return feedRemoteDataSource.postFeed(postFeedParameter).map(PostFeedMapper::map)
     }
 
     private fun getFeedEntity(data: ArrayList<Feed>) : ArrayList<FeedEntity> {

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import com.example.fun_story.BaseFragment
 
@@ -38,6 +39,18 @@ class WriteContentFragment : BaseFragment<WriteViewModel>() {
     }
 
     private fun initObserver() {
+        binding.editTextTitle.doOnTextChanged { _, _, _, _ ->
+            setButtonEnabled()
+        }
 
+        binding.editTextDescription.doOnTextChanged { _, _, _, _ ->
+            setButtonEnabled()
+        }
+
+    }
+
+    private fun setButtonEnabled() {
+        val enabled = binding.editTextTitle.text.isNotBlank() && binding.editTextDescription.text.isNotBlank()
+        viewModel.setFinishEnable(enabled)
     }
 }
