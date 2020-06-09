@@ -7,7 +7,13 @@
 
 ### 사용 기술
 
-* Clean Architecture <br> * MVVM <br> * RxJava2 <br> * Refrofit2 <br> * Material Design <br> * Room <br> * Koin
+* Clean Architecture <br> 
+* MVVM <br> 
+* RxJava2 <br> 
+* Refrofit2 <br> 
+* Material Design <br> 
+* Room <br> 
+* Koin
 
 ### 개발 툴
 
